@@ -1,6 +1,13 @@
 #pragma once
 
 
+/*
+I wish I didn't have to include in this header
+					 :(
+*/
+#include <string>
+
+
 //Print a string and end the line
 void prnts(std::string s);
 
