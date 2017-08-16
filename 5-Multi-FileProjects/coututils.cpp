@@ -27,5 +27,11 @@ void brk()
 
 void pause()
 {
-	system("pause");
+	//I read that system() is ridiculously resource intensive, and
+	//OS specific, and that I should use cin.get() instead.
+	std::cout << "Press Enter to continue...";
+	std::cin.get();
+	//Use ignore() to clear the buffer. Why is this important maintenance?
+	std::cin.ignore();
+	//system("pause");
 }
