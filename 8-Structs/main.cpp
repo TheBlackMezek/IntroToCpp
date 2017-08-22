@@ -49,7 +49,8 @@ int main()
 
 	vec2 v1{ 5, 10 };
 	vec2 v2{ 20, 19 };
-	prntf(affineSum(v1, v2));
+	vec2 vt = affineSum(v1, v2);
+	std::cout << vt.x << ", " << vt.y << std::endl;
 	vec2 difference = vecDiff(v1, v2);
 	std::cout << difference.x << ", " << difference.y << std::endl;
 	prntf(vecDist(v1, v2));
