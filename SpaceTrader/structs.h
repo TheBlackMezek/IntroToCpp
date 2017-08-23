@@ -38,6 +38,16 @@ struct planet
 
 
 /*
+To do over next 2 weeks (day goals):
+Separate planets and sats commands, planets have satellites (moons etc)
+Ability to buy/sell amounts of goods
+Retirement (look at options, retire on command)
+Events (separate game state) with endgame-screen effects
+Flesh out planets and goods, make a charts
+Juice: news flashes when arriving on objects
+
+
+
 Ideas:
 Clear screen after every input & increase window size to allow for UI design
 Planet UI should show name, shop, cargo, fuel and money

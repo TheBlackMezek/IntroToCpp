@@ -59,6 +59,7 @@ int main()
 	printf("Enter the name of your ship:\n");
 	std::getline(std::cin, shipName);
 	brk();
+	printf("Welcome aboard the %s captain!\n", shipName.c_str());
 	printHelp();
 
 
