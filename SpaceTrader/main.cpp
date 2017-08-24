@@ -3,10 +3,13 @@
 #include <iostream>
 
 #include "CoutUtils.h"
-#include "structs.h"
+//#include "structs.h"
+#include "Galaxy.h"
 
 
 void printHelp();
+float getFuelCost(int strt, int dest);
+float diff(float a, float b);
 
 
 
@@ -20,8 +23,7 @@ int loc = 0;
 int money = 100;
 std::string shipName = "";
 
-const int solSize = 4;
-planet sol[solSize];
+
 
 int fuelCost = 1;
 
@@ -31,31 +33,16 @@ int fuelCost = 1;
 
 int main()
 {
-	sol[0] = { "Earth", 15,
-		"EARTH:\nA beautiful planet of many colors, but most strikingly blue.\nIt is the fertile homeworld of humanity.\n",
-	{ { "food", 1, 10}, {}, {} },
-	{ { "synthlife", 1, 60 }, {"metals", 1, 10}, { "machines", 1, 20 } } };
+	
 
-	sol[1] = { "Luna", 15,
-		"LUNA:\nKnown by Earthlings as 'The Moon'.\nIt is a barren, gray orb.\nIt is known for its science facilities.\n",
-	{ { "synthlife", 1, 50 },{},{} },
-	{ { "food", 1, 15 },{ "metals", 1, 12 },{} } };
 
-	sol[2] = { "Mars", 15,
-		"MARS:\nA dusty orange planet, and the site of humankind's first offworld colonies.\nIt is known for its low-G manufacturing and breathtaking natural features.\n",
-	{ { "food", 1, 15 },{ "machines", 1, 15 },{} },
-	{ { "synthlife", 1, 80 },{},{} } };
 
-	sol[3] = { "Ceres", 25,
-		"CERES:\nA dwarf planet in the asteroid belt.\nIt serves as the main refinery and manufacturing hub for A belt miners.\n",
-	{ { "machines", 1, 10 },{ "metals", 1, 5 },{} },
-	{ { "food", 1, 25 },{},{} } };
-
+	//This puts all the data in gal[]
+	initGalaxy();
 
 
 
 	printf("Welcome to Space Trader!\n");
-	//printf("Enter 'ship' to get started.\n");
 	printf("Enter the name of your ship:\n");
 	std::getline(std::cin, shipName);
 	brk();
@@ -81,7 +68,7 @@ int main()
 			printf("%s stats:\n", shipName.c_str());
 			printf("Money: $%i\n", money);
 			printf("Fuel: %f / %f\n", fuel, maxFuel);
-			printf("Currently orbiting %s\n", sol[loc].name.c_str());
+			printf("Currently orbiting %s\n", gal[loc].name.c_str());
 			printf("Current cargo:\n");
 			bool foundCargo = false;
 			for (int i = 0; i < baySize; ++i)
@@ -99,16 +86,78 @@ int main()
 		}
 		else if (input == "planets")
 		{
-			printf("Planets and Moons\n");
-			printf("Name and Fuel Cost\n");
-			for (int i = 0; i < solSize; ++i)
+			printf("Planets around Sol\n");
+			printf("Name, satellite count and fuel cost from %s\n", gal[loc].name.c_str());
+			for (int i = 0; i < galSize; ++i)
 			{
-				printf("%s %f\n", sol[i].name.c_str(), sol[i].fuelCost);
+				if (gal[i].ploc == -1)
+				{
+					printf("%s %i %f\n", gal[i].name.c_str(), gal[i].sats, getFuelCost(loc, i));
+				}
+			}
+		}
+		else if (input == "objects")
+		{
+			printf("All objects around Sol\n");
+			printf("Name, satellite count and fuel cost from %s\n", gal[loc].name.c_str());
+			for (int i = 0; i < galSize; ++i)
+			{
+				printf("%s %i %f\n", gal[i].name.c_str(), gal[i].sats, getFuelCost(loc, i));
+			}
+		}
+		else if (input == "sats")
+		{
+			printf("Objects around %s\n", gal[loc].name.c_str());
+			printf("Name, satellite count and fuel cost from %s:\n", gal[loc].name.c_str());
+			bool foundSat = false;
+			for (int i = 0; i < galSize; ++i)
+			{
+				if (gal[i].ploc == loc)
+				{
+					foundSat = true;
+					printf("%s %i %f\n", gal[i].name.c_str(), gal[i].sats, getFuelCost(loc, i));
+				}
+			}
+			if (!foundSat)
+			{
+				printf("No satellites found\n");
+			}
+		}
+		else if (input.substr(0, 4) == "sats")
+		{
+			std::string obj = input.substr(5, input.npos);
+			bool objFound = false;
+			for (int i = 0; i < galSize; ++i)
+			{
+				if (gal[i].name == obj)
+				{
+					objFound = true;
+					printf("Objects around %s\n", gal[i].name.c_str());
+					printf("Name, satellite count and fuel cost from %s:\n", gal[loc].name.c_str());
+					bool foundSat = false;
+					for (int q = 0; q < galSize; ++q)
+					{
+						if (gal[q].ploc == i)
+						{
+							foundSat = true;
+							printf("%s %i %f\n", gal[q].name.c_str(), gal[q].sats, getFuelCost(loc, q));
+						}
+					}
+					if (!foundSat)
+					{
+						printf("No satellites found\n");
+					}
+					break;
+				}
+			}
+			if (!objFound)
+			{
+				printf("%s is not a known object.\n", obj.c_str());
 			}
 		}
 		else if (input == "shop")
 		{
-			printf("Welcome to the %s marketplace!\n", sol[loc].name.c_str());
+			printf("Welcome to the %s marketplace!\n", gal[loc].name.c_str());
 			brk();
 			printf("You have $%i\n", money);
 			brk();
@@ -117,9 +166,9 @@ int main()
 
 			for (int i = 0; i < goodsSize; ++i)
 			{
-				if (sol[loc].goods[i].qty > 0)
+				if (gal[loc].goods[i].qty > 0)
 				{
-					printf("    %s for %i each\n", sol[loc].goods[i].type.c_str(), sol[loc].goods[i].val);
+					printf("    %s for %i each\n", gal[loc].goods[i].type.c_str(), gal[loc].goods[i].val);
 				}
 			}
 
@@ -128,10 +177,10 @@ int main()
 			bool foundWants = false;
 			for (int i = 0; i < wantsSize; ++i)
 			{
-				if (sol[loc].wants[i].qty > 0)
+				if (gal[loc].wants[i].qty > 0)
 				{
 					foundWants = true;
-					printf("    %s for %i each\n", sol[loc].wants[i].type.c_str(), sol[loc].wants[i].val);
+					printf("    %s for %i each\n", gal[loc].wants[i].type.c_str(), gal[loc].wants[i].val);
 				}
 			}
 			if (!foundWants)
@@ -167,9 +216,9 @@ int main()
 			{
 				for (int i = 0; i < goodsSize; ++i)
 				{
-					if (sol[loc].goods[i].type == item)
+					if (gal[loc].goods[i].type == item)
 					{
-						if (money >= sol[loc].goods[i].val)
+						if (money >= gal[loc].goods[i].val)
 						{
 							bool foundItemInBay = false;
 							bool bayHasSpace = false;
@@ -178,7 +227,7 @@ int main()
 								if (bay[b].type == item)
 								{
 									foundItemInBay = true;
-									money -= sol[loc].goods[i].val;
+									money -= gal[loc].goods[i].val;
 									++bay[b].qty;
 									printf("You have $%i left and %i %s in your cargo hold.\n", money, bay[b].qty, item.c_str());
 									break;
@@ -191,7 +240,7 @@ int main()
 									if (bay[b].qty == 0)
 									{
 										bayHasSpace = true;
-										money -= sol[loc].goods[i].val;
+										money -= gal[loc].goods[i].val;
 										bay[b].type = item;
 										++bay[b].qty;
 										printf("You have $%i left and %i %s in your cargo hold.\n", money, bay[b].qty, item.c_str());
@@ -230,11 +279,11 @@ int main()
 					bool storeWantsItem = false;
 					for (int i = 0; i < wantsSize; ++i)
 					{
-						if (sol[loc].wants[i].type == item)
+						if (gal[loc].wants[i].type == item)
 						{
 							storeWantsItem = true;
 							--bay[b].qty;
-							money += sol[loc].wants[i].val;
+							money += gal[loc].wants[i].val;
 							printf("Sale successful!\n");
 							printf("You now have $%i and %i %s in your cargo bay.\n", money, bay[b].qty, bay[b].type.c_str());
 							if (!bay[b].qty) { bay[b].type = ""; }
@@ -256,29 +305,30 @@ int main()
 		else if (input.substr(0, 4) == "goto")
 		{
 			std::string obj = input.substr(5, input.npos);
-			if (obj == sol[loc].name)
+			if (obj == gal[loc].name)
 			{
-				printf("You're already at %s!\n", sol[loc].name.c_str());
+				printf("You're already at %s!\n", gal[loc].name.c_str());
 			}
 			else
 			{
 				bool objFound = false;
-				for (int i = 0; i < solSize; ++i)
+				for (int i = 0; i < galSize; ++i)
 				{
-					if (sol[i].name == obj)
+					if (gal[i].name == obj)
 					{
 						objFound = true;
-						if (fuel >= sol[i].fuelCost)
+						float fuelCost = getFuelCost(loc, i);
+						if (fuel >= fuelCost)
 						{
-							fuel -= sol[i].fuelCost;
+							fuel -= fuelCost;
 							loc = i;
-							printf("You fly to %s, using up %f fuel.\n", sol[i].name.c_str(), sol[i].fuelCost);
+							printf("You fly to %s, using up %f fuel.\n", gal[i].name.c_str(), fuelCost);
 							printf("You have %f fuel left.\n", fuel);
-							printf("Welcome to %s!\n", sol[i].name.c_str());
+							printf("Welcome to %s!\n", gal[i].name.c_str());
 						}
 						else
 						{
-							printf("You don't have enough fuel to go to %s!\n", sol[i].name.c_str());
+							printf("You don't have enough fuel to go to %s!\n", gal[i].name.c_str());
 						}
 						break;
 					}
@@ -291,7 +341,7 @@ int main()
 		}
 		else if (input == "desc")
 		{
-			printf(sol[loc].desc.c_str());
+			printf(gal[loc].desc.c_str());
 		}
 		else if (input == "help")
 		{
@@ -307,10 +357,103 @@ int main()
 
 void printHelp()
 {
-	printf("You are currently in orbit around %s.\n", sol[loc].name.c_str());
-	printf("\nBasic commands (without the ''s):\n'help' to see this text again\n'exit' to exit the game\n");
+	printf("You are currently in orbit around %s.\n", gal[loc].name.c_str());
+	printf("\nBASIC COMMANDS (without the ''s):\n'help' to see this text again\n'exit' to exit the game\n");
 	printf("'ship' to see your ship stats\n'shop' to see the planet's shop\n");
-	printf("'planets' to see a list of objects\n'desc' to see the description of the object you're orbiting\n");
+	printf("'planets' to see the list of planets\n");
+	printf("'sats' to see a list of satellites in your current orbit\n");
+	printf("'sats ObjectName' to see a list of satellites for an object\n");
+	printf("'objects' to see a list of all objects around Sol\n");
+	printf("'desc' to see the description of the object you're orbiting\n");
 	printf("'goto PlanetName' to go to an object\n'buy ItemName' to buy 1 of an item\n'sell ItemName' to sell 1 of an item\n");
-	printf("\nTerminology: 'objects' is used to collectively refer to\nplanets, moons, space stations, etc.\n");
+	printf("\nTERMINOLOGY: 'objects' is used to collectively refer to\nplanets, moons, space stations, etc.\n");
+	printf("A 'satellite' isn't just man-made. Moons are also satellites.\n");
+}
+
+float getFuelCost(int strt, int dest)
+{
+	//If orbiting the same object, just get distance from each other
+	if (gal[strt].ploc == gal[dest].ploc)
+	{
+		return diff(gal[strt].dist, gal[dest].dist);
+	}
+	//If destination is parent of current object, get distance to parent
+	else if (gal[strt].ploc == dest)
+	{
+		return gal[strt].dist;
+	}
+	//If destination is satellite of current object, get distance to parent
+	else if (gal[dest].ploc == strt)
+	{
+		return gal[dest].dist;
+	}
+	//If not siblings or parent/child, find lowest common ancestor
+	else
+	{
+		//Find distance from each location to top
+		int sToTop = 0;
+		int dToTop = 0;
+
+		int loopLoc = strt;
+		while (gal[loopLoc].ploc != -1)
+		{
+			++sToTop;
+			loopLoc = gal[loopLoc].ploc;
+		}
+		loopLoc = dest;
+		while (gal[loopLoc].ploc != -1)
+		{
+			++dToTop;
+			loopLoc = gal[loopLoc].ploc;
+		}
+
+		//Sum up distance
+		float totalDist = 0;
+		while (sToTop >= 0 && dToTop >= 0)
+		{
+			if (sToTop > dToTop)
+			{
+				totalDist += gal[strt].dist;
+				strt = gal[strt].ploc;
+				--sToTop;
+			}
+			else if (dToTop > sToTop)
+			{
+				totalDist += gal[dest].dist;
+				dest = gal[dest].ploc;
+				--dToTop;
+			}
+			else
+			{
+				totalDist += gal[strt].dist;
+				strt = gal[strt].ploc;
+				--sToTop;
+				totalDist += gal[dest].dist;
+				dest = gal[dest].ploc;
+				--dToTop;
+			}
+
+			if (gal[strt].ploc == gal[dest].ploc)
+			{
+				totalDist += diff(gal[strt].dist, gal[dest].dist);
+				break;
+			}
+			else if (gal[strt].ploc == dest)
+			{
+				totalDist += gal[strt].dist;
+				break;
+			}
+			else if (gal[dest].ploc == strt)
+			{
+				totalDist += gal[dest].dist;
+				break;
+			}
+		}
+		return totalDist;
+	}
+}
+
+float diff(float a, float b)
+{
+	return (a > b) ? a - b : b - a;
 }

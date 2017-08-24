@@ -22,10 +22,22 @@ struct cargo
 	int val;
 };
 
-struct planet
+struct retirement
 {
 	std::string name;
-	float fuelCost;
+	int cost;
+	std::string desc;
+	std::string endText;
+};
+
+struct obj
+{
+	std::string name;
+	std::string parent;
+	int ploc;
+	float dist;
+	int sats;
+	retirement retire;
 	std::string desc;
 	cargo goods[goodsSize];
 	cargo wants[wantsSize];
@@ -39,7 +51,7 @@ struct planet
 
 /*
 To do over next 2 weeks (day goals):
-Separate planets and sats commands, planets have satellites (moons etc)
+//Separate planets and sats commands, planets have satellites (moons etc)
 Ability to buy/sell amounts of goods
 Retirement (look at options, retire on command)
 Events (separate game state) with endgame-screen effects
