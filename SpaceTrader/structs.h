@@ -52,10 +52,14 @@ struct obj
 /*
 To do over next 2 weeks (day goals):
 //Separate planets and sats commands, planets have satellites (moons etc)
+Flesh out planets and goods, make a chart
+Cargo bay size is total number of items & variety of items, not just variety
 Ability to buy/sell amounts of goods
+Ability to sell back into a market
+Upgrade fuel tank
+Upgrade cargo bay?
 Retirement (look at options, retire on command)
 Events (separate game state) with endgame-screen effects
-Flesh out planets and goods, make a charts
 Juice: news flashes when arriving on objects
 
 

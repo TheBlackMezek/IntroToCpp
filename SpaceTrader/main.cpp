@@ -19,7 +19,7 @@ const int baySize = 2;
 cargo bay[baySize];
 float maxFuel = 100.0f;
 float fuel = maxFuel;
-int loc = 0;
+int loc = 2;
 int money = 100;
 std::string shipName = "";
 
