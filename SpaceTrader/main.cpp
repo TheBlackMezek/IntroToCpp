@@ -191,9 +191,15 @@ int main()
 				printf("None\n");
 			}
 		}
-		else if (input.substr(0, 3) == "buy")
+		else if (getWord(input, 0) == "buy")
 		{
-			std::string item = input.substr(4, input.npos);
+			//std::string item = input.substr(4, input.npos);
+			std::string item = getWord(input, 1);
+			int amt = 1;
+			if (getWord(input, 2) != item)
+			{
+				amt = stoi(getWord(input, 2));
+			}
 			if (item == "fuel")
 			{
 				if (money >= fuelCost)
@@ -468,7 +474,15 @@ std::string getWord(std::string s, int i)
 
 	do
 	{
-		pos = s.find(' ');
+		if (lastPos == -1)
+		{
+			pos = s.find(' ');
+		}
+		else
+		{
+			pos = s.find(' ', lastPos + 1);
+		}
+
 		if (pos == std::string::npos)
 		{
 			return s.substr(lastPos + 1, pos);
