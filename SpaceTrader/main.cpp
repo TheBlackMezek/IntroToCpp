@@ -196,24 +196,30 @@ int main()
 			//std::string item = input.substr(4, input.npos);
 			std::string item = getWord(input, 1);
 			int amt = 1;
-			if (getWord(input, 2) != item)
+			if (item == "fuel" && getWord(input, 2) == "max")
+			{
+				amt = money / fuelCost;
+				if (amt > maxFuel - fuel) { amt = maxFuel - fuel; }
+			}
+			else if (getWord(input, 2) != item && getWord(input, 2) != "max")
 			{
 				amt = stoi(getWord(input, 2));
 			}
+
 			if (item == "fuel")
 			{
-				if (money >= fuelCost)
+				if (money >= fuelCost * amt)
 				{
-					if (fuel < maxFuel)
+					if (fuel + amt <= maxFuel)
 					{
-						money -= fuelCost;
-						++fuel;
-						printf("You have $i left and %f fuel in your tank.\n", money, fuel);
+						money -= fuelCost * amt;
+						fuel += amt;
+						printf("You have $%i left and %f fuel in your tank.\n", money, fuel);
 						printf("Thank you for your purchase!\n");
 					}
 					else
 					{
-						printf("Your fuel tank is full!\n");
+						printf("Your fuel tank isn't big enough for that!\n");
 					}
 				}
 				else
@@ -227,7 +233,12 @@ int main()
 				{
 					if (gal[loc].goods[i].type == item)
 					{
-						if (money >= gal[loc].goods[i].val)
+						if (getWord(input, 2) == "max")
+						{
+							amt = money / gal[loc].goods[i].val;
+						}
+
+						if (money >= gal[loc].goods[i].val * amt && amt > 0)
 						{
 							bool foundItemInBay = false;
 							bool bayHasSpace = false;
@@ -236,8 +247,8 @@ int main()
 								if (bay[b].type == item)
 								{
 									foundItemInBay = true;
-									money -= gal[loc].goods[i].val;
-									++bay[b].qty;
+									money -= gal[loc].goods[i].val * amt;
+									bay[b].qty += amt;
 									printf("You have $%i left and %i %s in your cargo hold.\n", money, bay[b].qty, item.c_str());
 									break;
 								}
@@ -249,9 +260,9 @@ int main()
 									if (bay[b].qty == 0)
 									{
 										bayHasSpace = true;
-										money -= gal[loc].goods[i].val;
+										money -= gal[loc].goods[i].val * amt;
 										bay[b].type = item;
-										++bay[b].qty;
+										bay[b].qty += amt;
 										printf("You have $%i left and %i %s in your cargo hold.\n", money, bay[b].qty, item.c_str());
 										break;
 									}
@@ -278,11 +289,16 @@ int main()
 		}
 		else if (input.substr(0, 4) == "sell")
 		{
-			std::string item = input.substr(5, input.npos);
+			std::string item = getWord(input, 1);
+			int amt = 1;
+			if (getWord(input, 2) != item && getWord(input, 2) != "max")
+			{
+				amt = stoi(getWord(input, 2));
+			}
 			bool bayHasItem = false;
 			for (int b = 0; b < baySize; ++b)
 			{
-				if (bay[b].type == item)
+				if (bay[b].type == item && bay[b].qty >= amt)
 				{
 					bayHasItem = true;
 					bool storeWantsItem = false;
@@ -290,9 +306,14 @@ int main()
 					{
 						if (gal[loc].wants[i].type == item)
 						{
+							if (getWord(input, 2) == "max")
+							{
+								amt = bay[b].qty;
+							}
+
 							storeWantsItem = true;
-							--bay[b].qty;
-							money += gal[loc].wants[i].val;
+							bay[b].qty -= amt;
+							money += gal[loc].wants[i].val * amt;
 							printf("Sale successful!\n");
 							printf("You now have $%i and %i %s in your cargo bay.\n", money, bay[b].qty, bay[b].type.c_str());
 							if (!bay[b].qty) { bay[b].type = ""; }
