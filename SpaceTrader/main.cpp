@@ -10,6 +10,8 @@
 void printHelp();
 float getFuelCost(int strt, int dest);
 float diff(float a, float b);
+//Gets word i from the string, words being separated by spaces
+std::string getWord(std::string s, int i);
 
 
 
@@ -123,7 +125,8 @@ int main()
 				printf("No satellites found\n");
 			}
 		}
-		else if (input.substr(0, 4) == "sats")
+		//else if (input.substr(0, 4) == "sats")
+		else if (getWord(input, 0) == "sats")
 		{
 			std::string obj = input.substr(5, input.npos);
 			bool objFound = false;
@@ -456,4 +459,26 @@ float getFuelCost(int strt, int dest)
 float diff(float a, float b)
 {
 	return (a > b) ? a - b : b - a;
+}
+
+std::string getWord(std::string s, int i)
+{
+	int lastPos = -1;
+	int pos = 0;
+
+	do
+	{
+		pos = s.find(' ');
+		if (pos == std::string::npos)
+		{
+			return s.substr(lastPos + 1, pos);
+		}
+		else if (i == 0)
+		{
+			return s.substr(lastPos + 1, pos - lastPos - 1);
+		}
+		--i;
+		lastPos = pos;
+
+	} while (i >= 0);
 }
