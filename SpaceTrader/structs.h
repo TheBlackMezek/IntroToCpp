@@ -52,10 +52,10 @@ struct obj
 /*
 To do over next 2 weeks (day goals):
 //Separate planets and sats commands, planets have satellites (moons etc)
-Flesh out planets and goods, make a chart
-Cargo bay size is total number of items & variety of items, not just variety
-Ability to buy/sell amounts of goods
+//Ability to buy/sell amounts of goods
+//Cargo bay size is total number of items & variety of items, not just variety
 Ability to sell back into a market
+Flesh out planets and goods, make a chart
 Upgrade fuel tank
 Upgrade cargo bay?
 Retirement (look at options, retire on command)
