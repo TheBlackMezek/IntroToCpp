@@ -20,13 +20,14 @@ void initGalaxy()
 	*/
 
 
-	gal[0] = { "Mercury", "", 0, 0, 0,
+	gal[0] = { "Mercury", "", 0, 10, 0,
 	{ "RETNAME", 5000, "RETDESC\n" },
 		"MERCURY:\nA slow-turning gray ball orbiting very close to Sol.\n"
 		"Mercury isn't pretty, but it has access to enormous amounts of solar power.\n"
 		"Mobile manufactories slowly move to stay in the night side.\n",
-		{ { "machines", 1, 27 },{ "tech", 1, 25 },{} },
-		{ { "food", 1, 13 },{ "water", 1, 12 },{ "metal", 1, 20} } };
+		{ { "machines", 1, 27 },{ "tech", 1, 25 },{ "food", 1, 13 },{ "water", 1, 18 },{ "metal", 1, 20 },
+		 {}, {}, {}, {}, {} }
+	};
 
 
 
@@ -37,20 +38,22 @@ void initGalaxy()
 		"Venusians refer to the surface as 'The Underworld'.\n"
 		"It has several tourist hotel stations and science bases.\n"
 		"Only unmanned craft descend to explore or gather atmosphere.\n",
-		{ {},{},{} },
-		{ { "food", 1, 12 },{ "water", 1, 11 },{ "synthlife", 1, 115 } } };
+		{ { "synthlife", 1, 115 }, {}, {}, { "food", 1, 12 },{ "water", 1, 15 },
+		 {}, {}, {}, {}, {} }
+	};
 
 
 
-	gal[2] = { "Earth", "", 0, 50, 0,
+	gal[2] = { "Earth", "", 0, 40, 0,
 		{ "Paradise Falls", 5000, "A beautiful house in a forest overlooking a waterfall.\n", "You have retired.\n" },
 		"EARTH:\n"
 		"The beautiful and fertile homeworld of humanity.\n"
 		"Earth is the most populous, wealthy, and powerful object around Sol.\n"
 		"It remains divided into several alliances of sovereign nations.\n"
 		"Earthers are fascinated by the exotic products from 'outer space'.\n",
-		{ { "food", 1, 7 },{ "water", 1, 9 },{} },
-		{ { "synthlife", 1, 105 },{},{} } };
+		{ { "water", 1, 10 }, { "synthlife", 1, 105 }, {}, {}, {},
+		{}, {}, {}, {}, {} }
+	};
 
 	gal[3] = { "Luna", "Earth", 0, 5, 0,
 		{ "Stardome House", 5000, "A retirement home with a fantastic sky dome.\n", "You have retired.\n" },
@@ -59,8 +62,9 @@ void initGalaxy()
 		"Luna produces little of its own, but has many specialized facilities.\n"
 		"Low-g, no atmosphere, and proximity to Earth bring tourists and scientists.\n"
 		"It is known as one of the few producers of synthlife.\n",
-		{ { "synthlife", 1, 100 },{},{} },
-		{ { "food", 1, 10 },{ "water", 1, 11 },{ "tech", 1, 35 } } };
+		{ { "synthlife", 1, 100 },{ "food", 1, 12 },{ "water", 1, 11 },{ "tech", 1, 35 }, {},
+		{}, {}, {}, {}, {} }
+	};
 
 
 
@@ -71,20 +75,22 @@ void initGalaxy()
 		"Mars is known for its orange color, prosperity, and natural wonders.\n"
 		"Mars is by far the most populous planet after Earth.\n"
 		"It serves as a gateway between the inner and outer solar system.\n",
-		{ { "food", 1, 8 },{},{ "water", 1, 10 } },
-		{ { "synthlife", 1, 110 },{ "machines", 1, 30 },{} } };
+		{ { "food", 1, 8 }, { "water", 1, 10 },{ "synthlife", 1, 110 },{ "machines", 1, 30 },{},
+		{}, {}, {}, {}, {} }
+	};
 
 
 
-	gal[5] = { "Ceres", "", 0, 120, 0,
+	gal[5] = { "Ceres", "", 0, 160, 0,
 		{ "None", 0, "Why would you retire here?\n", "" },
 		"CERES:\n"
 		"The largest dwarf planet in the asteroid belt.\n"
 		"Ceres is the main hub for miners in the A-belt.\n"
 		"It houses administration, refineries, factories, shipyards, and ports.\n"
 		"It's not an attractive place and receives few tourists.\n",
-		{ { "machines", 1, 25 },{ "metals", 1, 10 },{} },
-		{ { "food", 1, 13 },{ "water", 1, 12 },{ "tech", 1, 30 } } };
+		{ { "machines", 1, 25 }, { "metals", 1, 10 }, { "food", 1, 13 },{ "water", 1, 12 },{ "tech", 1, 30 },
+		{}, {}, {}, {}, {} }
+	};
 
 
 

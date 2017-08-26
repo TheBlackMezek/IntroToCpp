@@ -12,7 +12,7 @@
 //Game commands: help, planet stats, ship stats, planet list, travel, buy, sell
 
 
-const int goodsSize = 3;
+const int goodsSize = 10;
 const int wantsSize = 3;
 
 struct cargo
@@ -40,7 +40,7 @@ struct obj
 	retirement retire;
 	std::string desc;
 	cargo goods[goodsSize];
-	cargo wants[wantsSize];
+	//cargo wants[wantsSize];
 };
 
 
@@ -54,7 +54,7 @@ To do over next 2 weeks (day goals):
 //Separate planets and sats commands, planets have satellites (moons etc)
 //Ability to buy/sell amounts of goods
 //Cargo bay size is total number of items & variety of items, not just variety
-Ability to sell back into a market
+//Ability to sell back into a market
 Flesh out planets and goods, make a chart
 Upgrade fuel tank
 Upgrade cargo bay?

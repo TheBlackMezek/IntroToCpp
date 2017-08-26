@@ -23,7 +23,7 @@ cargo bay[baySize];
 float maxFuel = 100.0f;
 float fuel = maxFuel;
 int loc = 2;
-int money = 100;
+int money = 200;
 std::string shipName = "";
 
 
@@ -91,6 +91,7 @@ int main()
 		else if (input == "planets")
 		{
 			printf("Planets around Sol\n");
+			printf("You have %f / %f fuel and $%i.\n", fuel, maxFuel, money);
 			printf("Name, satellite count and fuel cost from %s\n", gal[loc].name.c_str());
 			for (int i = 0; i < galSize; ++i)
 			{
@@ -103,6 +104,7 @@ int main()
 		else if (input == "objects")
 		{
 			printf("All objects around Sol\n");
+			printf("You have %f / %f fuel and $%i.\n", fuel, maxFuel, money);
 			printf("Name, satellite count and fuel cost from %s\n", gal[loc].name.c_str());
 			for (int i = 0; i < galSize; ++i)
 			{
@@ -112,6 +114,7 @@ int main()
 		else if (input == "sats")
 		{
 			printf("Objects around %s\n", gal[loc].name.c_str());
+			printf("You have %f / %f fuel and $%i.\n", fuel, maxFuel, money);
 			printf("Name, satellite count and fuel cost from %s:\n", gal[loc].name.c_str());
 			bool foundSat = false;
 			for (int i = 0; i < galSize; ++i)
@@ -137,6 +140,7 @@ int main()
 				{
 					objFound = true;
 					printf("Objects around %s\n", gal[i].name.c_str());
+					printf("You have %f / %f fuel and $%i.\n", fuel, maxFuel, money);
 					printf("Name, satellite count and fuel cost from %s:\n", gal[loc].name.c_str());
 					bool foundSat = false;
 					for (int q = 0; q < galSize; ++q)
@@ -168,17 +172,19 @@ int main()
 			printf("On the market:\n");
 			printf("    fuel for %i each\n", fuelCost);
 
+			bool foundWants = false;
 			for (int i = 0; i < goodsSize; ++i)
 			{
 				if (gal[loc].goods[i].qty > 0)
 				{
+					foundWants = true;
 					printf("    %s for %i each\n", gal[loc].goods[i].type.c_str(), gal[loc].goods[i].val);
 				}
 			}
 
-			brk();
+			/*brk();
 			printf("Companies are buying:\n");
-			bool foundWants = false;
+			
 			for (int i = 0; i < wantsSize; ++i)
 			{
 				if (gal[loc].wants[i].qty > 0)
@@ -186,7 +192,7 @@ int main()
 					foundWants = true;
 					printf("    %s for %i each\n", gal[loc].wants[i].type.c_str(), gal[loc].wants[i].val);
 				}
-			}
+			}*/
 			if (!foundWants)
 			{
 				printf("None\n");
@@ -194,7 +200,6 @@ int main()
 		}
 		else if (getWord(input, 0) == "buy")
 		{
-			//std::string item = input.substr(4, input.npos);
 			std::string item = getWord(input, 1);
 			int amt = 1;
 			if (item == "fuel" && getWord(input, 2) == "max")
@@ -340,7 +345,7 @@ int main()
 						bool storeWantsItem = false;
 						for (int i = 0; i < wantsSize; ++i)
 						{
-							if (gal[loc].wants[i].type == item)
+							if (gal[loc].goods[i].type == item)
 							{
 								if (getWord(input, 2) == "max")
 								{
@@ -350,36 +355,14 @@ int main()
 								storeWantsItem = true;
 								bay[b].qty -= amt;
 								itemsInBay -= amt;
-								money += gal[loc].wants[i].val * amt;
+								money += gal[loc].goods[i].val * amt;
 								printf("Sale successful!\n");
 								printf("You now have $%i and %i %s in your cargo bay.\n", money, bay[b].qty, bay[b].type.c_str());
 								if (!bay[b].qty) { bay[b].type = ""; }
 								break;
 							}
 						}
-						//Sell-back
-						if (!storeWantsItem)
-						{
-							for (int i = 0; i < goodsSize; ++i)
-							{
-								if (gal[loc].goods[i].type == item)
-								{
-									if (getWord(input, 2) == "max")
-									{
-										amt = bay[b].qty;
-									}
 
-									storeWantsItem = true;
-									bay[b].qty -= amt;
-									itemsInBay -= amt;
-									money += gal[loc].goods[i].val * amt;
-									printf("Sale successful!\n");
-									printf("You now have $%i and %i %s in your cargo bay.\n", money, bay[b].qty, bay[b].type.c_str());
-									if (!bay[b].qty) { bay[b].type = ""; }
-									break;
-								}
-							}
-						}
 						if (!storeWantsItem)
 						{
 							printf("Sorry, we're not interested in buying that.\n");
