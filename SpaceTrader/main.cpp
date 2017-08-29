@@ -50,6 +50,7 @@ int main()
 	
 
 	//This puts all the data in gal[]
+	//This needs to come before initScreens()
 	initGalaxy();
 
 

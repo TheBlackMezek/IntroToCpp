@@ -25,3 +25,6 @@ void switchScreenToHelp();
 void switchScreenToShip();
 void switchScreenToShop();
 void switchScreenToStar();
+
+
+void makeCurrentOrbitImg(ElementData* e);

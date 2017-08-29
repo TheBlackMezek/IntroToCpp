@@ -8,6 +8,7 @@
 #include "ImageMaker.h"
 #include "PlayerData.h"
 #include "InputGetter.h"
+#include "Galaxy.h"
 
 
 Screen* screen;
@@ -74,6 +75,8 @@ void initShipScreen()
 
 
 
+
+
 	//Ship stats
 	std::string tvstring = "%s";
 	ElementData elmdat = makeElementData(10, 10, shipName.size() + 2, 3, 0x000F);
@@ -82,22 +85,27 @@ void initShipScreen()
 	int idx = shipScreen.addElement(elmdat);
 	shipScreen.addVarText(idx, vartxt);
 
+	tvstring = "Currently orbiting: %s";
+	elmdat = makeElementData(10, 14, 50, 1, 0x000F);
+	elmdat.imgRenderer = &makeCurrentOrbitImg;
+	shipScreen.addElement(elmdat);
+
 	tvstring = "Fuel: %f";
-	elmdat = makeElementData(10, 15, 16, 1, 0x000F);
+	elmdat = makeElementData(10, 17, 16, 1, 0x000F);
 	vartxt = makeVarText(tvstring, 1, &fuel);
 	makeTextImageWithVars(false, tvstring.c_str(), tvstring.size(), &elmdat, &vartxt);
 	idx = shipScreen.addElement(elmdat);
 	shipScreen.addVarText(idx, vartxt);
 
 	tvstring = " / %f";
-	elmdat = makeElementData(26, 15, 13, 3, 0x000F);
+	elmdat = makeElementData(26, 17, 13, 3, 0x000F);
 	vartxt = makeVarText(tvstring, 1, &maxFuel);
 	makeTextImageWithVars(false, tvstring.c_str(), tvstring.size(), &elmdat, &vartxt);
 	idx = shipScreen.addElement(elmdat);
 	shipScreen.addVarText(idx, vartxt);
 
 	tvstring = "Money: $%i";
-	elmdat = makeElementData(10, 17, 50, 1, 0x000F);
+	elmdat = makeElementData(10, 19, 50, 1, 0x000F);
 	vartxt = makeVarText(tvstring, 0, &money);
 	makeTextImageWithVars(false, tvstring.c_str(), tvstring.size(), &elmdat, &vartxt);
 	idx = shipScreen.addElement(elmdat);
@@ -211,4 +219,36 @@ void switchScreenToStar()
 {
 	screen = &starScreen;
 	lclick = false;
+}
+
+
+
+void makeCurrentOrbitImg(ElementData* e)
+{
+	e->image = std::vector<CharData>();
+	e->image.resize(e->sizeX * e->sizeY);
+	char ap = ' ';
+
+	std::string text = "Currently orbiting ";
+	text.append(gal[loc].name.c_str());
+
+	for (int y = 0; y < e->sizeY; ++y)
+	{
+		for (int x = 0; x < e->sizeX; ++x)
+		{
+			//Text
+			if (y == (e->sizeY - 1) / 2 && x <= text.size())
+			{
+				e->image[x + y * e->sizeX].chr = text[x];
+			}
+
+			//Empty space
+			else
+			{
+				e->image[x + y * e->sizeX].chr = ' ';
+			}
+
+			e->image[x + y * e->sizeX].color = e->textColor;
+		}
+	}
 }

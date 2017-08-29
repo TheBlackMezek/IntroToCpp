@@ -125,6 +125,11 @@ int Screen::addElement(ElementData ed)
 	elmDat[open] = ed;
 	e.elementData = open;
 
+	if (ed.imgRenderer != NULL)
+	{
+		ed.imgRenderer(&ed);
+	}
+
 	open = getOpenIndex(elements);
 	elements[open] = e;
 
