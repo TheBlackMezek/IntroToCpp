@@ -8,7 +8,6 @@ const int WIN_WIDTH = 100;
 const int WIN_HEIGHT = 50;
 
 //Each CHAR_INFO contains data for a single character: its ASCII char and color
-//CHAR_INFO consoleBuffer[WIN_WIDTH * WIN_HEIGHT];
 extern CHAR_INFO consoleBuffer[];
 extern COORD charBufferSize;
 extern COORD charPosition;

@@ -37,12 +37,10 @@ void Screen::update(int mouseX, int mouseY)
 				mouseY <= elmDat[elements[i].elementData].posY + elmDat[elements[i].elementData].sizeY)
 			{
 				butDat[elements[i].buttonData].mouseOver = true;
-				//TextButton::makeImage(&elmDat[elements[i].elementData], &butDat[elements[i].buttonData]);
 			}
 			else
 			{
 				butDat[elements[i].buttonData].mouseOver = false;
-				//TextButton::makeImage(&elmDat[elements[i].elementData], &butDat[elements[i].buttonData]);
 			}
 			makeButtonImage(&elmDat[elements[i].elementData], &butDat[elements[i].buttonData]);
 		}
@@ -81,11 +79,7 @@ void Screen::makeImage()
 					{
 						int imgPos = x - elmDat[elements[i].elementData].posX + (y - elmDat[elements[i].elementData].posY) * elmDat[elements[i].elementData].sizeX;
 						image[x + y * sizeX].chr = elmDat[elements[i].elementData].image.at(imgPos).chr;
-						//image[x + y * sizeX].chr = i;
 						image[x + y * sizeX].color = elmDat[elements[i].elementData].image.at(imgPos).color;
-
-						/*image.replace(x + y * sizeX, 1,
-							eimg.substr( x - elements[i].getPosX() + (y - elements[i].getPosY()) * elements[i].getSizeX(), 1 ) );*/
 					}
 				}
 			}
@@ -160,60 +154,3 @@ std::vector<CharData> Screen::getImage()
 }
 
 
-
-//int Screen::getOpenIndex(Component c[])
-//{
-//	int i = 0;
-//	for (; c[i].exists; ++i) 
-//	{
-//	
-//	}
-//	//c[i].exists = true;
-//	return i;
-//}
-//
-//int Screen::getOpenIndex(Element c[])
-//{
-//	int i = 0;
-//	for (; c[i].exists; ++i)
-//	{
-//
-//	}
-//	//c[i].exists = true;
-//	return i;
-//}
-//
-//int Screen::getOpenIndex(ElementData c[])
-//{
-//	int i = 0;
-//	for (; c[i].exists; ++i)
-//	{
-//
-//	}
-//	//c[i].exists = true;
-//	return i;
-//}
-//
-//int Screen::getOpenIndex(ButtonData c[])
-//{
-//	int i = 0;
-//	for (; c[i].exists; ++i)
-//	{
-//
-//	}
-//	//c[i].exists = true;
-//	return i;
-//}
-//
-//// getOpenIndex(elmData, sizeof(ElementData));
-//int Screen::getOpenIndex(Component * data, int stride)
-//{
-//	char *test = (char*)data;
-//	int i = 0;
-//	for (; ((Component*)test)->exists && i < maxElms; test += stride)
-//	{
-//		++i;
-//	}
-//	//c[i].exists = true;
-//	return i;
-//}
