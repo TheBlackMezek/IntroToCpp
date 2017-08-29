@@ -43,6 +43,8 @@ struct ButtonData : Component
 {
 	bool bordered;
 	bool mouseOver;
+	int onColor;
+	int offColor;
 	std::string text;
 	void(*callback)();
 };
