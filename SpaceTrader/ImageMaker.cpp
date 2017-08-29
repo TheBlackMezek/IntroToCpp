@@ -156,7 +156,7 @@ void makeTextImageMultiLine(bool bordered, const char text[], int textSize, Elem
 				{
 					e->image[x + y * e->sizeX].chr = text[chridx];
 					++chridx;
-					if (chridx < textSize && text[chridx] == '\n')
+					while (chridx < textSize && text[chridx] == '\n')
 					{
 						++chrLine;
 						++chridx;
@@ -176,7 +176,7 @@ void makeTextImageMultiLine(bool bordered, const char text[], int textSize, Elem
 				{
 					e->image[x + y * e->sizeX].chr = text[chridx];
 					++chridx;
-					if (chridx < textSize && text[chridx] == '\n')
+					while (chridx < textSize && text[chridx] == '\n')
 					{
 						++chrLine;
 						++chridx;

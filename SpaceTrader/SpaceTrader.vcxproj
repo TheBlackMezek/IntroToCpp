@@ -113,6 +113,7 @@
     <ClCompile Include="CoutUtils.cpp" />
     <ClCompile Include="DataMaker.cpp" />
     <ClCompile Include="Galaxy.cpp" />
+    <ClCompile Include="GameScreens.cpp" />
     <ClCompile Include="ImageMaker.cpp" />
     <ClCompile Include="InputGetter.cpp" />
     <ClCompile Include="main.cpp" />
@@ -124,6 +125,7 @@
     <ClInclude Include="DataMaker.h" />
     <ClInclude Include="ElementStructs.h" />
     <ClInclude Include="Galaxy.h" />
+    <ClInclude Include="GameScreens.h" />
     <ClInclude Include="ImageMaker.h" />
     <ClInclude Include="InputGetter.h" />
     <ClInclude Include="Planning.h" />

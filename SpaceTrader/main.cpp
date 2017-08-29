@@ -9,7 +9,8 @@
 #include "InputGetter.h"
 #include "ImageMaker.h"
 #include "DataMaker.h"
-#include "Screen.h"
+#include "GameScreens.h"
+//#include "Screen.h"
 
 
 void printHelp();
@@ -38,11 +39,7 @@ std::string shipName = "";
 int fuelCost = 2;
 
 
-Screen* screen;
-Screen helpScreen;
-Screen shipScreen;
-Screen shopScreen;
-Screen starScreen;
+
 
 
 
@@ -66,35 +63,8 @@ int main()
 
 	WindowSetup();
 
-	helpScreen = Screen();
-	helpScreen.setSize(WIN_WIDTH, WIN_HEIGHT);
-
-	ElementData testText = makeElementData(10, 10, 16, 6, 0x000A);
-
-	char testimg[] = "Hello world!\nHi!";
-	makeTextImageMultiLine(true, testimg, 16, &testText);
-	helpScreen.addElement(testText);
-
-	ElementData testBut = makeElementData(10, 20, 6, 3, 0x000F);
-	ButtonData testButDat = makeButtonData(true, 0x000F, 0x000C, "Test", NULL);
-	makeButtonImage(&testBut, &testButDat);
-	int butIdx = helpScreen.addElement(testBut);
-	helpScreen.addButton(butIdx, testButDat);
-
-
-	shipScreen = Screen();
-	shipScreen.setSize(WIN_WIDTH, WIN_HEIGHT);
-
-
-
-	shopScreen = Screen();
-	shopScreen.setSize(WIN_WIDTH, WIN_HEIGHT);
-
-
-
-	starScreen = Screen();
-	starScreen.setSize(WIN_WIDTH, WIN_HEIGHT);
-
+	
+	initScreens();
 
 
 
