@@ -111,13 +111,25 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CoutUtils.cpp" />
+    <ClCompile Include="DataMaker.cpp" />
     <ClCompile Include="Galaxy.cpp" />
+    <ClCompile Include="ImageMaker.cpp" />
+    <ClCompile Include="InputGetter.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Screen.cpp" />
+    <ClCompile Include="WindowSetup.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CoutUtils.h" />
+    <ClInclude Include="DataMaker.h" />
+    <ClInclude Include="ElementStructs.h" />
     <ClInclude Include="Galaxy.h" />
+    <ClInclude Include="ImageMaker.h" />
+    <ClInclude Include="InputGetter.h" />
+    <ClInclude Include="Planning.h" />
+    <ClInclude Include="Screen.h" />
     <ClInclude Include="structs.h" />
+    <ClInclude Include="WindowSetup.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
