@@ -14,6 +14,7 @@ ElementData makeElementData(int px, int py, int sx, int sy, int color)
 	ret.sizeX = sx;
 	ret.sizeY = sy;
 	ret.textColor = color;
+	ret.imgRenderer = NULL;
 	return ret;
 }
 
@@ -27,5 +28,15 @@ ButtonData makeButtonData(bool bordered, int offColor, int onColor, std::string 
 	ret.onColor = onColor;
 	ret.text = text;
 	ret.callback = c;
+	return ret;
+}
+
+VarText makeVarText(std::string text, int type, void* v)
+{
+	VarText ret;
+	ret.exists = true;
+	ret.text = text;
+	ret.type = type;
+	ret.var = v;
 	return ret;
 }

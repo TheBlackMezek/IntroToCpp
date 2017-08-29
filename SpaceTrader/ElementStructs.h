@@ -27,6 +27,7 @@ struct Element : Component
 {
 	int elementData = -1;
 	int buttonData = -1;
+	int varText = -1;
 };
 
 struct ElementData : Component
@@ -37,6 +38,7 @@ struct ElementData : Component
 	int sizeY;
 	int textColor;
 	std::vector<CharData> image;
+	void(*imgRenderer)(ElementData* e);
 };
 
 struct ButtonData : Component
@@ -47,4 +49,12 @@ struct ButtonData : Component
 	int offColor;
 	std::string text;
 	void(*callback)();
+};
+
+//Variable Text, text that uses variables for some of its content
+struct VarText : Component
+{
+	std::string text;
+	int type; //0 is int, 1 is float, 2 is string
+	void* var;
 };

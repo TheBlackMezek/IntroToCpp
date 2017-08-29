@@ -12,8 +12,6 @@ extern Screen starScreen;
 
 void initScreens();
 
-
-
 void initHelpScreen();
 
 void initShipScreen();
@@ -21,3 +19,9 @@ void initShipScreen();
 void initShopScreen();
 
 void initStarScreen();
+
+
+void switchScreenToHelp();
+void switchScreenToShip();
+void switchScreenToShop();
+void switchScreenToStar();

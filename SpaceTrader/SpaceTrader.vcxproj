@@ -117,6 +117,7 @@
     <ClCompile Include="ImageMaker.cpp" />
     <ClCompile Include="InputGetter.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PlayerData.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="WindowSetup.cpp" />
   </ItemGroup>
@@ -129,6 +130,7 @@
     <ClInclude Include="ImageMaker.h" />
     <ClInclude Include="InputGetter.h" />
     <ClInclude Include="Planning.h" />
+    <ClInclude Include="PlayerData.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="structs.h" />
     <ClInclude Include="WindowSetup.h" />

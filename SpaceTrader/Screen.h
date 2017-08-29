@@ -22,6 +22,7 @@ private:
 	Element     elements[100];
 	ElementData elmDat[100];
 	ButtonData  butDat[100];
+	VarText     varTxt[100];
 	// -------------------------------------- //
 
 	template<typename T>
@@ -41,6 +42,7 @@ public:
 
 	int addElement(ElementData ed);
 	int addButton(int elm, ButtonData b);
+	int addVarText(int elm, VarText t);
 	void setSize(int x, int y);
 
 	int getSizeX();

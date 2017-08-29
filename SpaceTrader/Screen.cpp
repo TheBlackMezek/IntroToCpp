@@ -3,6 +3,7 @@
 
 
 #include "ImageMaker.h"
+#include "InputGetter.h"
 
 
 
@@ -22,6 +23,10 @@ Screen::Screen()
 	{
 		butDat[i].exists = false;
 	}
+	for (int i = 0; i < maxElms; ++i)
+	{
+		varTxt[i].exists = false;
+	}
 }
 
 
@@ -33,10 +38,14 @@ void Screen::update(int mouseX, int mouseY)
 		{
 			if (mouseX >= elmDat[elements[i].elementData].posX &&
 				mouseX <= elmDat[elements[i].elementData].posX + elmDat[elements[i].elementData].sizeX - 1 &&
-				mouseY > elmDat[elements[i].elementData].posY &&
+				mouseY >  elmDat[elements[i].elementData].posY &&
 				mouseY <= elmDat[elements[i].elementData].posY + elmDat[elements[i].elementData].sizeY)
 			{
 				butDat[elements[i].buttonData].mouseOver = true;
+				if (lclick)
+				{
+					butDat[elements[i].buttonData].callback();
+				}
 			}
 			else
 			{
@@ -63,13 +72,17 @@ void Screen::makeImage()
 			image[x + y * sizeX].color = 0x000F;
 		}
 	}
-	int numThatExist = 0;
+	
 	//Add images from elements
 	for (int i = 0; i < maxElms; ++i)
 	{
 		if (elements[i].exists)
 		{
-			++numThatExist;
+			if (elmDat[elements[i].elementData].imgRenderer != NULL)
+			{
+				elmDat[elements[i].elementData].imgRenderer(&elmDat[elements[i].elementData]);
+			}
+
 			std::vector<CharData> eimg = elmDat[elements[i].elementData].image;
 			for (int y = elmDat[elements[i].elementData].posY; y < elmDat[elements[i].elementData].posY + elmDat[elements[i].elementData].sizeY; ++y)
 			{
@@ -85,7 +98,6 @@ void Screen::makeImage()
 			}
 		}
 	}
-	numThatExist = numThatExist; //Just here as a point to break on
 }
 
 void Screen::click()
@@ -108,6 +120,7 @@ int Screen::addElement(ElementData ed)
 	Element e;
 	e.exists = true;
 	e.buttonData = -1;
+	e.varText = -1;
 	int open = getOpenIndex(elmDat);
 	elmDat[open] = ed;
 	e.elementData = open;
@@ -124,6 +137,16 @@ int Screen::addButton(int elm, ButtonData b)
 	butDat[open] = b;
 
 	elements[elm].buttonData = open;
+
+	return open;
+}
+
+int Screen::addVarText(int elm, VarText t)
+{
+	int open = getOpenIndex(varTxt);
+	varTxt[open] = t;
+
+	elements[elm].varText = open;
 
 	return open;
 }

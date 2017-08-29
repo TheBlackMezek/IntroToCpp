@@ -25,3 +25,12 @@ Finished all by 11:30 after talking with Esme for a while
 Organize SpaceTrader code
 Begin making ShipStats screen
 */
+
+
+/*
+
+Need to link a screen element's text with variables
+Put things in text like %f or %c for floats and cstrings
+
+
+*/
