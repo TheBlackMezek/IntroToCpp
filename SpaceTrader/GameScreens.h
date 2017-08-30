@@ -29,3 +29,4 @@ void switchScreenToStar();
 
 void makeCurrentOrbitImg(ElementData* e);
 void makeCargoImg(ElementData* e);
+void makeShipScreenImg(ElementData* e);

@@ -74,15 +74,26 @@ void initShipScreen()
 	shipScreen.setSize(WIN_WIDTH, WIN_HEIGHT);
 
 
+	std::string tvstring;
+	ElementData elmdat;
+	VarText vartxt;
+	int idx;
+
+
+
+	//Image on top
+	elmdat = makeElementData(50, 1, WIN_WIDTH - 52, 8, 0x000E);
+	elmdat.imgRenderer = &makeShipScreenImg;
+	shipScreen.addElement(elmdat);
 
 
 
 	//Ship stats
-	std::string tvstring = "%s";
-	ElementData elmdat = makeElementData(10, 10, shipName.size() + 2, 3, 0x000F);
-	VarText vartxt = makeVarText(tvstring, 2, &shipName);
+	tvstring = "%s";
+	elmdat = makeElementData(10, 10, shipName.size() + 2, 3, 0x000F);
+	vartxt = makeVarText(tvstring, 2, &shipName);
 	makeTextImageWithVars(true, tvstring.c_str(), tvstring.size(), &elmdat, &vartxt);
-	int idx = shipScreen.addElement(elmdat);
+	idx = shipScreen.addElement(elmdat);
 	shipScreen.addVarText(idx, vartxt);
 
 	elmdat = makeElementData(10, 14, 50, 1, 0x000F);
@@ -287,6 +298,52 @@ void makeCargoImg(ElementData* e)
 			text.append("\n\n");
 		}
 	}
+
+
+	int chridx = 0;
+	int chrLine = 0;
+	for (int y = 0; y < e->sizeY; ++y)
+	{
+		for (int x = 0; x < e->sizeX; ++x)
+		{
+			//Text
+			if (chridx < text.size() && y == chrLine)
+			{
+				e->image[x + y * e->sizeX].chr = text[chridx];
+				++chridx;
+				while (chridx < text.size() && text[chridx] == '\n')
+				{
+					++chrLine;
+					++chridx;
+				}
+			}
+
+			//Empty space
+			else
+			{
+				e->image[x + y * e->sizeX].chr = ' ';
+			}
+
+			e->image[x + y * e->sizeX].color = e->textColor;
+		}
+	}
+}
+
+void makeShipScreenImg(ElementData* e)
+{
+	e->image = std::vector<CharData>();
+	e->image.resize(e->sizeX * e->sizeY);
+	char ap = ' ';
+	std::string text = 
+		"   *   * ===========\n"
+		"             \\      \\\n"
+		"  \\ +-------------------------\\\n"
+		"   \\|                          \\\n"
+		"   /|                          /\n"
+		"  / +-------------------------/\n"
+		"             /      /\n"
+		"   *   * ===========";
+
 
 
 	int chridx = 0;
