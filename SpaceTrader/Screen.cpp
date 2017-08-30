@@ -64,6 +64,9 @@ void Screen::update(int mouseX, int mouseY)
 			makeButtonImage(&elmDat[elements[i].elementData], &butDat[elements[i].buttonData]);
 		}
 	}
+
+	if (lclick) { lclick = false; }
+
 	makeImage();
 }
 
