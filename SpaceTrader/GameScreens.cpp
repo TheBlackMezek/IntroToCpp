@@ -85,7 +85,6 @@ void initShipScreen()
 	int idx = shipScreen.addElement(elmdat);
 	shipScreen.addVarText(idx, vartxt);
 
-	tvstring = "Currently orbiting: %s";
 	elmdat = makeElementData(10, 14, 50, 1, 0x000F);
 	elmdat.imgRenderer = &makeCurrentOrbitImg;
 	shipScreen.addElement(elmdat);
@@ -110,6 +109,23 @@ void initShipScreen()
 	makeTextImageWithVars(false, tvstring.c_str(), tvstring.size(), &elmdat, &vartxt);
 	idx = shipScreen.addElement(elmdat);
 	shipScreen.addVarText(idx, vartxt);
+
+	elmdat = makeElementData(10, 25, 50, WIN_HEIGHT - 30, 0x000F);
+	elmdat.imgRenderer = &makeCargoImg;
+	shipScreen.addElement(elmdat);
+
+
+
+	/*bay[0] = { "Goods", 3, 0 };
+	bay[1] = { "Stuff", 9183, 0 };
+	bay[2] = { "Stuff", 9183, 0 };
+	bay[3] = { "Stuff", 9183, 0 };
+	bay[4] = { "Stuff", 9183, 0 };
+	bay[5] = { "Stuff", 9183, 0 };
+	bay[6] = { "Stuff", 9183, 0 };
+	bay[7] = { "Stuff", 9183, 0 };
+	bay[8] = { "Stuff", 9183, 0 };
+	bay[9] = { "Stuff", 9183, 0 };*/
 
 
 
@@ -240,6 +256,55 @@ void makeCurrentOrbitImg(ElementData* e)
 			if (y == (e->sizeY - 1) / 2 && x <= text.size())
 			{
 				e->image[x + y * e->sizeX].chr = text[x];
+			}
+
+			//Empty space
+			else
+			{
+				e->image[x + y * e->sizeX].chr = ' ';
+			}
+
+			e->image[x + y * e->sizeX].color = e->textColor;
+		}
+	}
+}
+
+void makeCargoImg(ElementData* e)
+{
+	e->image = std::vector<CharData>();
+	e->image.resize(e->sizeX * e->sizeY);
+	char ap = ' ';
+	std::string text = "CARGO BAY\n\n\n";
+
+
+	for (int i = 0; i < baySize; ++i)
+	{
+		if (bay[i].qty > 0)
+		{
+			text.append(bay[i].type);
+			text.append(": ");
+			text.append(std::to_string(bay[i].qty));
+			text.append("\n\n");
+		}
+	}
+
+
+	int chridx = 0;
+	int chrLine = 0;
+	for (int y = 0; y < e->sizeY; ++y)
+	{
+		for (int x = 0; x < e->sizeX; ++x)
+		{
+			//Text
+			if (chridx < text.size() && y == chrLine)
+			{
+				e->image[x + y * e->sizeX].chr = text[chridx];
+				++chridx;
+				while (chridx < text.size() && text[chridx] == '\n')
+				{
+					++chrLine;
+					++chridx;
+				}
 			}
 
 			//Empty space

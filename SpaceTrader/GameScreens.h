@@ -28,3 +28,4 @@ void switchScreenToStar();
 
 
 void makeCurrentOrbitImg(ElementData* e);
+void makeCargoImg(ElementData* e);
