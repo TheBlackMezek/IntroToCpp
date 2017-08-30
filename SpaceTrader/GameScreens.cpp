@@ -185,7 +185,7 @@ void initShopScreen()
 	elmdat.imgRenderer = &makeShopNameImg;
 	shopScreen.addElement(elmdat);
 
-	//Money & Cargo displays
+	//Money, Fuel & Cargo displays
 	tvstring = "Money: $%i";
 	elmdat = makeElementData(51, 10, 30, 1, 0x000E);
 	vartxt = makeVarText(tvstring, 0, &money);
@@ -193,9 +193,46 @@ void initShopScreen()
 	idx = shopScreen.addElement(elmdat);
 	shopScreen.addVarText(idx, vartxt);
 
-	elmdat = makeElementData(51, 15, 45, WIN_HEIGHT - 20, 0x000F);
+	tvstring = "Fuel: %f";
+	elmdat = makeElementData(51, 12, 16, 1, 0x000F);
+	vartxt = makeVarText(tvstring, 1, &fuel);
+	makeTextImageWithVars(false, tvstring.c_str(), tvstring.size(), &elmdat, &vartxt);
+	idx = shopScreen.addElement(elmdat);
+	shopScreen.addVarText(idx, vartxt);
+
+	tvstring = " / %f";
+	elmdat = makeElementData(67, 12, 13, 1, 0x000F);
+	vartxt = makeVarText(tvstring, 1, &maxFuel);
+	makeTextImageWithVars(false, tvstring.c_str(), tvstring.size(), &elmdat, &vartxt);
+	idx = shopScreen.addElement(elmdat);
+	shopScreen.addVarText(idx, vartxt);
+
+	elmdat = makeElementData(51, 18, 45, WIN_HEIGHT - 20, 0x000F);
 	elmdat.imgRenderer = &makeCargoImg;
 	shopScreen.addElement(elmdat);
+
+	//Fuel purchase display
+	elmdat = makeElementData(60, 14, 30, 3, 0x000F);
+	tvstring = "$1 / $2  fuel";
+	makeTextImage(false, tvstring.c_str(), tvstring.size(), &elmdat);
+	shopScreen.addElement(elmdat);
+
+	elmdat = makeElementData(51, 14, 4, 3, 0x000F);
+	elmdat.data = "fuel";
+	butDat = makeButtonData(true, 0x000C, 0x0004, "-1", NULL);
+	butDat.dataCallback = &sellGoods;
+	makeButtonImage(&elmdat, &butDat);
+	idx = shopScreen.addElement(elmdat);
+	shopScreen.addButton(idx, butDat);
+
+
+	elmdat = makeElementData(56, 14, 4, 3, 0x000F);
+	elmdat.data = "fuel";
+	butDat = makeButtonData(true, 0x000A, 0x0002, "+1", NULL);
+	butDat.dataCallback = &buyGoods;
+	makeButtonImage(&elmdat, &butDat);
+	idx = shopScreen.addElement(elmdat);
+	shopScreen.addButton(idx, butDat);
 
 
 
@@ -308,8 +345,9 @@ void switchScreenToShop()
 	for (int i = 0; i < screen->maxElms; ++i)
 	{
 		elm = screen->elements[i];
-		if (screen->butDat[elm.buttonData].exists
-			&& screen->elmDat[elm.elementData].data != "")
+		if (screen->butDat[elm.buttonData].exists &&
+			(screen->elmDat[elm.elementData].data != "" &&
+			 screen->elmDat[elm.elementData].data != "fuel"))
 		{
 			screen->elmDat[elm.elementData].visible =
 				(gal[loc].goods[std::stoi(screen->elmDat[elm.elementData].data)].qty > 0);
@@ -326,8 +364,18 @@ void switchScreenToStar()
 
 void buyGoods(ElementData* e)
 {
-	int idx = std::stoi(e->data);
-	std::string item = gal[loc].goods[idx].type;
+	int idx = -1;
+	std::string item = "";
+
+	if (e->data == "fuel")
+	{
+		item = "fuel";
+	}
+	else
+	{
+		idx = std::stoi(e->data);
+		item = gal[loc].goods[idx].type;
+	}
 
 	int amt = 1;
 
@@ -384,9 +432,18 @@ void buyGoods(ElementData* e)
 
 void sellGoods(ElementData* e)
 {
-	int idx = std::stoi(e->data);
-	std::string item = gal[loc].goods[idx].type;
-	int bayidx = -1;
+	int idx = -1;
+	std::string item = "";
+
+	if (e->data == "fuel")
+	{
+		item = "fuel";
+	}
+	else
+	{
+		idx = std::stoi(e->data);
+		item = gal[loc].goods[idx].type;
+	}
 
 	int amt = 1;
 
