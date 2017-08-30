@@ -32,6 +32,8 @@ struct Element : Component
 
 struct ElementData : Component
 {
+	bool bordered;
+	bool visible;
 	int posX;
 	int posY;
 	int sizeX;
@@ -39,6 +41,7 @@ struct ElementData : Component
 	int textColor;
 	std::vector<CharData> image;
 	void(*imgRenderer)(ElementData* e);
+	std::string data;
 };
 
 struct ButtonData : Component
@@ -49,6 +52,7 @@ struct ButtonData : Component
 	int offColor;
 	std::string text;
 	void(*callback)();
+	void(*dataCallback)(ElementData* b);
 };
 
 //Variable Text, text that uses variables for some of its content

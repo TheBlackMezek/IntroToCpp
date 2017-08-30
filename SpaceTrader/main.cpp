@@ -37,7 +37,6 @@ void renderWindow();
 //-------------------------//
 
 
-int fuelCost = 2;
 
 
 
@@ -71,7 +70,9 @@ int main()
 
 
 	//screen = &helpScreen;
-	screen = &shipScreen;
+	//screen = &shipScreen;
+	//screen = &shopScreen;
+	switchScreenToShop();
 
 
 	std::string input = "";

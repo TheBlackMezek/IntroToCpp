@@ -8,6 +8,8 @@ const int galSize = 6;
 extern obj gal[galSize];
 
 
+extern int fuelCost;
+
 void initGalaxy();
 
 

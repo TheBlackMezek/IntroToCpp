@@ -8,6 +8,8 @@
 ElementData makeElementData(int px, int py, int sx, int sy, int color)
 {
 	ElementData ret;
+	ret.bordered = false;
+	ret.visible = true;
 	ret.exists = true;
 	ret.posX = px;
 	ret.posY = py;
@@ -15,6 +17,7 @@ ElementData makeElementData(int px, int py, int sx, int sy, int color)
 	ret.sizeY = sy;
 	ret.textColor = color;
 	ret.imgRenderer = NULL;
+	ret.data = "";
 	return ret;
 }
 
@@ -28,6 +31,7 @@ ButtonData makeButtonData(bool bordered, int offColor, int onColor, std::string 
 	ret.onColor = onColor;
 	ret.text = text;
 	ret.callback = c;
+	ret.dataCallback = NULL;
 	return ret;
 }
 

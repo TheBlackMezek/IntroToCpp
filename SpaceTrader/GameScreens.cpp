@@ -91,6 +91,7 @@ void initShipScreen()
 	//Ship stats
 	tvstring = "%s";
 	elmdat = makeElementData(10, 10, shipName.size() + 2, 3, 0x000F);
+	elmdat.bordered = true;
 	vartxt = makeVarText(tvstring, 2, &shipName);
 	makeTextImageWithVars(true, tvstring.c_str(), tvstring.size(), &elmdat, &vartxt);
 	idx = shipScreen.addElement(elmdat);
@@ -170,11 +171,60 @@ void initShopScreen()
 	shopScreen.setSize(WIN_WIDTH, WIN_HEIGHT);
 
 
+	std::string tvstring;
+	ElementData elmdat;
+	ButtonData butDat;
+	VarText vartxt;
+	int idx;
+
+
+
+
+	//Market name
+	elmdat = makeElementData(10, 8, WIN_WIDTH - 10, 1, 0x000E);
+	elmdat.imgRenderer = &makeShopNameImg;
+	shopScreen.addElement(elmdat);
+
+	int shopElmY = 10;
+	int shopElmYInc = 4;
+	for (int i = 0; i <= goodsSize; ++i)
+	{
+
+		elmdat = makeElementData(20, shopElmY, gal[loc].goods[i].type.size() + 3, 3, 0x000F);
+		//elmdat.imgRenderer = &makeShopNameImg;
+		makeTextImage(false, gal[loc].goods[i].type.c_str(), gal[loc].goods[i].type.size(), &elmdat);
+		shopScreen.addElement(elmdat);
+
+
+		elmdat = makeElementData(10, shopElmY, 4, 3, 0x000F);
+		elmdat.data = std::to_string(i);
+		butDat = makeButtonData(true, 0x000C, 0x0004, "-1", NULL);
+		butDat.dataCallback = &sellGoods;
+		makeButtonImage(&elmdat, &butDat);
+		idx = shopScreen.addElement(elmdat);
+		shopScreen.addButton(idx, butDat);
+
+
+		elmdat = makeElementData(15, shopElmY, 4, 3, 0x000F);
+		elmdat.data = std::to_string(i);
+		butDat = makeButtonData(true, 0x000A, 0x0002, "+1", NULL);
+		butDat.dataCallback = &buyGoods;
+		makeButtonImage(&elmdat, &butDat);
+		idx = shopScreen.addElement(elmdat);
+		shopScreen.addButton(idx, butDat);
+
+
+		shopElmY += shopElmYInc;
+	}
+
+
+
+
 	//Screen buttons
-	ElementData elmdat = makeElementData(1, 1, 6, 3, 0x000F);
-	ButtonData butDat = makeButtonData(true, 0x000B, 0x0009, "Help", &switchScreenToHelp);
+	elmdat = makeElementData(1, 1, 6, 3, 0x000F);
+	butDat = makeButtonData(true, 0x000B, 0x0009, "Help", &switchScreenToHelp);
 	makeButtonImage(&elmdat, &butDat);
-	int idx = shopScreen.addElement(elmdat);
+	idx = shopScreen.addElement(elmdat);
 	shopScreen.addButton(idx, butDat);
 
 	elmdat = makeElementData(8, 1, 6, 3, 0x000F);
@@ -227,26 +277,128 @@ void initStarScreen()
 void switchScreenToHelp()
 {
 	screen = &helpScreen;
-	lclick = false;
 }
 
 void switchScreenToShip()
 {
 	screen = &shipScreen;
-	lclick = false;
 }
 
 void switchScreenToShop()
 {
 	screen = &shopScreen;
-	lclick = false;
+	Element elm;
+
+	for (int i = 0; i < screen->maxElms; ++i)
+	{
+		elm = screen->elements[i];
+		if (screen->butDat[elm.buttonData].exists
+			&& screen->elmDat[elm.elementData].data != "")
+		{
+			screen->elmDat[elm.elementData].visible =
+				(gal[loc].goods[std::stoi(screen->elmDat[elm.elementData].data)].qty > 0);
+		}
+	}
 }
 
 void switchScreenToStar()
 {
 	screen = &starScreen;
-	lclick = false;
 }
+
+
+
+void buyGoods(ElementData* e)
+{
+	int idx = std::stoi(e->data);
+	std::string item = gal[loc].goods[idx].type;
+
+	int amt = 1;
+
+	if (item == "fuel")
+	{
+		if (money >= fuelCost * amt)
+		{
+			if (fuel + amt <= maxFuel)
+			{
+				money -= fuelCost * amt;
+				fuel += amt;
+			}
+		}
+	}
+	else
+	{
+		if (amt <= baySize - itemsInBay)
+		{
+			if (gal[loc].goods[idx].qty > 0)
+			{
+				if (money >= gal[loc].goods[idx].val * amt)
+				{
+					bool foundItemInBay = false;
+					for (int b = 0; b < baySize; ++b)
+					{
+						if (bay[b].type == item)
+						{
+							foundItemInBay = true;
+							money -= gal[loc].goods[idx].val * amt;
+							bay[b].qty += amt;
+							itemsInBay += amt;
+							break;
+						}
+					}
+					if (!foundItemInBay)
+					{
+						for (int b = 0; b < baySize; ++b)
+						{
+							if (bay[b].qty == 0)
+							{
+								money -= gal[loc].goods[idx].val * amt;
+								bay[b].type = item;
+								bay[b].qty += amt;
+								itemsInBay += amt;
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+void sellGoods(ElementData* e)
+{
+	int idx = std::stoi(e->data);
+	std::string item = gal[loc].goods[idx].type;
+	int bayidx = -1;
+
+	int amt = 1;
+
+	if (item == "fuel")
+	{
+		if (amt <= fuel)
+		{
+			money += amt * (fuelCost / 2);
+			fuel -= amt;
+		}
+	}
+	else
+	{
+		for (int b = 0; b < baySize; ++b)
+		{
+			if (bay[b].type == item && bay[b].qty >= amt)
+			{
+				bay[b].qty -= amt;
+				itemsInBay -= amt;
+				money += gal[loc].goods[idx].val * amt;
+				if (!bay[b].qty) { bay[b].type = ""; }
+				break;
+			}
+		}
+	}
+}
+
+
 
 
 
@@ -374,3 +526,36 @@ void makeShipScreenImg(ElementData* e)
 		}
 	}
 }
+
+void makeShopNameImg(ElementData* e)
+{
+	e->image = std::vector<CharData>();
+	e->image.resize(e->sizeX * e->sizeY);
+	char ap = ' ';
+
+	std::string text = "Welcome to the ";
+	text.append(gal[loc].name.c_str());
+	text.append(" marketplace!");
+
+	for (int y = 0; y < e->sizeY; ++y)
+	{
+		for (int x = 0; x < e->sizeX; ++x)
+		{
+			//Text
+			if (y == (e->sizeY - 1) / 2 && x <= text.size())
+			{
+				e->image[x + y * e->sizeX].chr = text[x];
+			}
+
+			//Empty space
+			else
+			{
+				e->image[x + y * e->sizeX].chr = ' ';
+			}
+
+			e->image[x + y * e->sizeX].color = e->textColor;
+		}
+	}
+}
+
+

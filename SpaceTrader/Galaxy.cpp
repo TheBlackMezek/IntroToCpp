@@ -4,6 +4,10 @@
 
 obj gal[galSize];
 
+int fuelCost = 2;
+
+
+
 void initGalaxy()
 {
 	//Second number is dist to parent, don't modify others

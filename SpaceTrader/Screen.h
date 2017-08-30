@@ -17,13 +17,6 @@ private:
 	int sizeX;
 	int sizeY;
 	std::vector<CharData> image;
-	// ---------- AGGREGATION TEST ---------- //
-	int maxElms; //This needs to be made static, constant
-	Element     elements[100];
-	ElementData elmDat[100];
-	ButtonData  butDat[100];
-	VarText     varTxt[100];
-	// -------------------------------------- //
 
 	template<typename T>
 	int getOpenIndex(const T data[])
@@ -35,6 +28,13 @@ private:
 
 public:
 	Screen();
+	// ---------- AGGREGATION TEST ---------- //
+	int maxElms; //This needs to be made static, constant
+	Element     elements[100];
+	ElementData elmDat[100];
+	ButtonData  butDat[100];
+	VarText     varTxt[100];
+	// -------------------------------------- //
 
 	void update(int mouseX, int mouseY);
 	void makeImage();

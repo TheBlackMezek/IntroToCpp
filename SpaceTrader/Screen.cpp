@@ -30,6 +30,8 @@ Screen::Screen()
 }
 
 
+
+
 void Screen::update(int mouseX, int mouseY)
 {
 	for (int i = 0; i < maxElms; ++i)
@@ -44,7 +46,15 @@ void Screen::update(int mouseX, int mouseY)
 				butDat[elements[i].buttonData].mouseOver = true;
 				if (lclick)
 				{
-					butDat[elements[i].buttonData].callback();
+					if (butDat[elements[i].buttonData].callback)
+					{
+						butDat[elements[i].buttonData].callback();
+					}
+					if (butDat[elements[i].buttonData].dataCallback)
+					{
+						butDat[elements[i].buttonData].dataCallback(&elmDat[elements[i].elementData]);
+					}
+					lclick = false;
 				}
 			}
 			else
@@ -76,11 +86,19 @@ void Screen::makeImage()
 	//Add images from elements
 	for (int i = 0; i < maxElms; ++i)
 	{
-		if (elements[i].exists)
+		if (elements[i].exists && elmDat[elements[i].elementData].visible)
 		{
 			if (elmDat[elements[i].elementData].imgRenderer != NULL)
 			{
 				elmDat[elements[i].elementData].imgRenderer(&elmDat[elements[i].elementData]);
+			}
+			else if (elements[i].varText != -1)
+			{
+				makeTextImageWithVars(elmDat[elements[i].elementData].bordered,
+					varTxt[elements[i].varText].text,
+					varTxt[elements[i].varText].text.size(),
+					&elmDat[elements[i].elementData],
+					&varTxt[elements[i].varText]);
 			}
 
 			std::vector<CharData> eimg = elmDat[elements[i].elementData].image;
@@ -106,7 +124,14 @@ void Screen::click()
 	{
 		if (butDat[i].mouseOver)
 		{
-			butDat[i].callback();
+			if (butDat[i].callback != NULL)
+			{
+				butDat[i].callback();
+			}
+			if (butDat[i].dataCallback != NULL)
+			{
+				butDat[i].dataCallback(&elmDat[i]);
+			}
 		}
 	}
 }

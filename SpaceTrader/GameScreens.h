@@ -27,6 +27,14 @@ void switchScreenToShop();
 void switchScreenToStar();
 
 
+
+
 void makeCurrentOrbitImg(ElementData* e);
 void makeCargoImg(ElementData* e);
 void makeShipScreenImg(ElementData* e);
+void makeShopNameImg(ElementData* e);
+void makeShopBuyImg(ElementData* e);
+void makeShopSellImg(ElementData* e);
+
+void buyGoods(ElementData* e);
+void sellGoods(ElementData* e);
