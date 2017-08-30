@@ -7,6 +7,8 @@ COORD charBufferSize = { WIN_WIDTH, WIN_HEIGHT };
 COORD charPosition = { 0, 0 };
 SMALL_RECT consoleWriteArea{ 0, 0, WIN_WIDTH - 1, WIN_HEIGHT - 1 };
 
+CONSOLE_CURSOR_INFO cursorInfo;
+
 HANDLE hstdin;
 HANDLE hstdout;
 
@@ -32,4 +34,9 @@ void WindowSetup()
 
 	//Set window size
 	SetConsoleWindowInfo(hstdout, TRUE, &winSize);
+
+	//Hide cursor
+	GetConsoleCursorInfo(hstdout, &cursorInfo);
+	cursorInfo.bVisible = false; // set the cursor visibility
+	SetConsoleCursorInfo(hstdout, &cursorInfo);
 }
