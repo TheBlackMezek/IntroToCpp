@@ -185,15 +185,31 @@ void initShopScreen()
 	elmdat.imgRenderer = &makeShopNameImg;
 	shopScreen.addElement(elmdat);
 
+	//Money & Cargo displays
+	tvstring = "Money: $%i";
+	elmdat = makeElementData(51, 10, 30, 1, 0x000E);
+	vartxt = makeVarText(tvstring, 0, &money);
+	makeTextImageWithVars(false, tvstring.c_str(), tvstring.size(), &elmdat, &vartxt);
+	idx = shopScreen.addElement(elmdat);
+	shopScreen.addVarText(idx, vartxt);
+
+	elmdat = makeElementData(51, 15, 45, WIN_HEIGHT - 20, 0x000F);
+	elmdat.imgRenderer = &makeCargoImg;
+	shopScreen.addElement(elmdat);
+
+
+
+	//Market items & buy/sell buttons
 	int shopElmY = 10;
 	int shopElmYInc = 4;
 	for (int i = 0; i <= goodsSize; ++i)
 	{
 
-		elmdat = makeElementData(20, shopElmY, gal[loc].goods[i].type.size() + 3, 3, 0x000F);
-		//elmdat.imgRenderer = &makeShopNameImg;
-		makeTextImage(false, gal[loc].goods[i].type.c_str(), gal[loc].goods[i].type.size(), &elmdat);
+		elmdat = makeElementData(21, shopElmY, 30, 3, 0x000F);
+		elmdat.data = std::to_string(i);
+		elmdat.imgRenderer = &makeShopItemImg;
 		shopScreen.addElement(elmdat);
+
 
 
 		elmdat = makeElementData(10, shopElmY, 4, 3, 0x000F);
@@ -437,7 +453,11 @@ void makeCargoImg(ElementData* e)
 	e->image = std::vector<CharData>();
 	e->image.resize(e->sizeX * e->sizeY);
 	char ap = ' ';
-	std::string text = "CARGO BAY\n\n\n";
+	std::string text = "CARGO BAY    ";
+	text.append(std::to_string(itemsInBay));
+	text.append(" / ");
+	text.append(std::to_string(baySize));
+	text.append("\n\n\n");
 
 
 	for (int i = 0; i < baySize; ++i)
@@ -558,4 +578,46 @@ void makeShopNameImg(ElementData* e)
 	}
 }
 
+void makeShopItemImg(ElementData* e)
+{
+	e->image = std::vector<CharData>();
+	e->image.resize(e->sizeX * e->sizeY);
+	char ap = ' ';
 
+	int idx = std::stoi(e->data);
+	std::string item = gal[loc].goods[idx].type;
+
+	std::string text = "";
+
+	if (gal[loc].goods[idx].qty > 0)
+	{
+		text = "$";
+		text.append(std::to_string(gal[loc].goods[idx].val));
+		int spaces = 6 - text.size();
+		for (int i = 0; i < spaces; ++i)
+		{
+			text.append(" ");
+		}
+		text.append(item);
+	}
+
+	for (int y = 0; y < e->sizeY; ++y)
+	{
+		for (int x = 0; x < e->sizeX; ++x)
+		{
+			//Text
+			if (y == (e->sizeY - 1) / 2 && x <= text.size())
+			{
+				e->image[x + y * e->sizeX].chr = text[x];
+			}
+
+			//Empty space
+			else
+			{
+				e->image[x + y * e->sizeX].chr = ' ';
+			}
+
+			e->image[x + y * e->sizeX].color = e->textColor;
+		}
+	}
+}
