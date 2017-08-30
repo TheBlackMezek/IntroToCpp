@@ -69,10 +69,9 @@ int main()
 
 
 
-	//screen = &helpScreen;
-	//screen = &shipScreen;
-	//screen = &shopScreen;
-	switchScreenToShop();
+	switchScreenToHelp();
+	//switchScreenToShip();
+	//switchScreenToShop();
 
 
 	std::string input = "";
