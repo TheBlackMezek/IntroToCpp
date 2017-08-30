@@ -54,7 +54,7 @@ void Screen::update(int mouseX, int mouseY)
 					{
 						butDat[elements[i].buttonData].dataCallback(&elmDat[elements[i].elementData]);
 					}
-					lclick = false;
+					//lclick = false;
 				}
 			}
 			else
@@ -65,7 +65,7 @@ void Screen::update(int mouseX, int mouseY)
 		}
 	}
 
-	if (lclick) { lclick = false; }
+	//if (lclick) { lclick = false; }
 
 	makeImage();
 }

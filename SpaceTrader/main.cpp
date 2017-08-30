@@ -69,8 +69,8 @@ int main()
 
 
 
-	switchScreenToHelp();
-	//switchScreenToShip();
+	//switchScreenToHelp();
+	switchScreenToShip();
 	//switchScreenToShop();
 
 

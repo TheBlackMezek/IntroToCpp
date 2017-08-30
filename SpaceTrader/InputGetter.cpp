@@ -9,7 +9,11 @@ DWORD numEventsRead;
 
 vec2 mouse{ 0, 0 };
 bool lclick = false;
+bool ldown = false;
+bool lclickswitch = false;
 bool rclick = false;
+bool rdown = false;
+bool rclickswitch = false;
 bool shouldExit = false;
 
 
@@ -38,6 +42,10 @@ void checkInput()
 {
 	numEventsRead = getInput(&eventBuffer);
 
+	ldown = false;
+	lclick = false;
+	rdown = false;
+
 	if (numEventsRead)
 	{
 		for (int i = 0; i < numEventsRead; ++i)
@@ -55,14 +63,37 @@ void checkInput()
 				}
 				break;
 			case MOUSE_EVENT:
+				//Left click
 				if (eventBuffer[i].Event.MouseEvent.dwButtonState == 0x0001)
 				{
-					lclick = true;
+					ldown = true;
+					if (!lclickswitch)
+					{
+						lclickswitch = true;
+						lclick = true;
+					}
 				}
+				else
+				{
+					lclickswitch = false;
+				}
+
+				//Right click
 				if (eventBuffer[i].Event.MouseEvent.dwButtonState == 0x0002)
 				{
-					rclick = true;
+					rdown = true;
+					if (!rclickswitch)
+					{
+						rclickswitch = true;
+						rclick = true;
+					}
 				}
+				else
+				{
+					rclickswitch = false;
+				}
+
+				//Mouse motion
 				if (eventBuffer[i].Event.MouseEvent.dwEventFlags == 0x0001)
 				{
 					mouse.x = eventBuffer[i].Event.MouseEvent.dwMousePosition.X;
@@ -73,6 +104,7 @@ void checkInput()
 				{
 
 				}
+
 				break;
 			}
 		}
