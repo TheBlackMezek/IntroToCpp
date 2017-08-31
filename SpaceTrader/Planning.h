@@ -9,6 +9,9 @@ Need to put terminology somewhere
 Help/victory screen
 
 
+
+
+
 Tuesday: Finish up ConsoleWindows, make new project
 Wednesday: Make buy/sell screen
 
@@ -32,5 +35,9 @@ Begin making ShipStats screen
 Need to link a screen element's text with variables
 Put things in text like %f or %c for floats and cstrings
 
+Star screen needs to have a button and data for each object
+Screen should start in the same orbit as the player
+1 button takes you 1 level out
+A button needs to store the loc idx of its object
 
 */

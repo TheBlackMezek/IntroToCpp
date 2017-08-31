@@ -306,11 +306,56 @@ void initStarScreen()
 	starScreen.setSize(WIN_WIDTH, WIN_HEIGHT);
 
 
+	std::string tvstring;
+	ElementData elmdat;
+	ButtonData butDat;
+	VarText vartxt;
+	int idx;
+
+
+
+
+	tvstring = "Fuel: %f";
+	elmdat = makeElementData(10, 7, 16, 1, 0x000E);
+	vartxt = makeVarText(tvstring, 1, &fuel);
+	makeTextImageWithVars(false, tvstring.c_str(), tvstring.size(), &elmdat, &vartxt);
+	idx = starScreen.addElement(elmdat);
+	starScreen.addVarText(idx, vartxt);
+
+	elmdat = makeElementData(30, 7, 50, 1, 0x000E);
+	elmdat.imgRenderer = &makeCurrentOrbitImg;
+	starScreen.addElement(elmdat);
+
+
+
+	int starScreenX = 10;
+	int starScreenXInc = 5;
+	for (int i = 0; i < galSize; ++i)
+	{
+		elmdat = makeElementData(starScreenX, 10, gal[i].name.size() + 2, 3, 0x000F);
+		elmdat.data = std::to_string(i);
+		butDat = makeButtonData(true, 0x000F, 0x0007, gal[i].name, NULL);
+		butDat.dataCallback = &goToObj;
+		makeButtonImage(&elmdat, &butDat);
+		idx = starScreen.addElement(elmdat);
+		starScreen.addButton(idx, butDat);
+
+		elmdat = makeElementData(starScreenX, 15, 30, 3, 0x000F);
+		elmdat.data = std::to_string(i);
+		elmdat.imgRenderer = &makeFuelCostImg;
+		starScreen.addElement(elmdat);
+
+
+		starScreenX += starScreenXInc + gal[i].name.size();
+	}
+
+
+
 	//Screen buttons
-	ElementData elmdat = makeElementData(1, 1, 6, 3, 0x000F);
-	ButtonData butDat = makeButtonData(true, 0x000B, 0x0009, "Help", &switchScreenToHelp);
+	elmdat = makeElementData(1, 1, 6, 3, 0x000F);
+	butDat = makeButtonData(true, 0x000B, 0x0009, "Help", &switchScreenToHelp);
 	makeButtonImage(&elmdat, &butDat);
-	int idx = starScreen.addElement(elmdat);
+	idx = starScreen.addElement(elmdat);
 	starScreen.addButton(idx, butDat);
 
 	elmdat = makeElementData(8, 1, 6, 3, 0x000F);
@@ -472,6 +517,18 @@ void sellGoods(ElementData* e)
 				break;
 			}
 		}
+	}
+}
+
+void goToObj(ElementData* e)
+{
+	int dest = std::stoi(e->data);
+	float fuelCost = getFuelCost(loc, dest);
+
+	if (fuel >= fuelCost)
+	{
+		fuel -= fuelCost;
+		loc = dest;
 	}
 }
 
@@ -670,6 +727,44 @@ void makeShopItemImg(ElementData* e)
 			if (y == (e->sizeY - 1) / 2 && x <= text.size())
 			{
 				e->image[x + y * e->sizeX].chr = text[x];
+			}
+
+			//Empty space
+			else
+			{
+				e->image[x + y * e->sizeX].chr = ' ';
+			}
+
+			e->image[x + y * e->sizeX].color = e->textColor;
+		}
+	}
+}
+
+void makeFuelCostImg(ElementData* e)
+{
+	e->image = std::vector<CharData>();
+	e->image.resize(e->sizeX * e->sizeY);
+	char ap = ' ';
+
+	std::string text = "Fuel:\n";
+	text.append(std::to_string((int)getFuelCost(loc, std::stoi(e->data))));
+
+	int chridx = 0;
+	int chrLine = 0;
+	for (int y = 0; y < e->sizeY; ++y)
+	{
+		for (int x = 0; x < e->sizeX; ++x)
+		{
+			//Text
+			if (chridx < text.size() && y == chrLine)
+			{
+				e->image[x + y * e->sizeX].chr = text[chridx];
+				++chridx;
+				while (chridx < text.size() && text[chridx] == '\n')
+				{
+					++chrLine;
+					++chridx;
+				}
 			}
 
 			//Empty space

@@ -119,3 +119,91 @@ void initGalaxy()
 		}
 	}
 }
+
+float getFuelCost(int strt, int dest)
+{
+	//If orbiting the same object, just get distance from each other
+	if (gal[strt].ploc == gal[dest].ploc)
+	{
+		return diff(gal[strt].dist, gal[dest].dist);
+	}
+	//If destination is parent of current object, get distance to parent
+	else if (gal[strt].ploc == dest)
+	{
+		return gal[strt].dist;
+	}
+	//If destination is satellite of current object, get distance to parent
+	else if (gal[dest].ploc == strt)
+	{
+		return gal[dest].dist;
+	}
+	//If not siblings or parent/child, find lowest common ancestor
+	else
+	{
+		//Find distance from each location to top
+		int sToTop = 0;
+		int dToTop = 0;
+
+		int loopLoc = strt;
+		while (gal[loopLoc].ploc != -1)
+		{
+			++sToTop;
+			loopLoc = gal[loopLoc].ploc;
+		}
+		loopLoc = dest;
+		while (gal[loopLoc].ploc != -1)
+		{
+			++dToTop;
+			loopLoc = gal[loopLoc].ploc;
+		}
+
+		//Sum up distance
+		float totalDist = 0;
+		while (sToTop >= 0 && dToTop >= 0)
+		{
+			if (sToTop > dToTop)
+			{
+				totalDist += gal[strt].dist;
+				strt = gal[strt].ploc;
+				--sToTop;
+			}
+			else if (dToTop > sToTop)
+			{
+				totalDist += gal[dest].dist;
+				dest = gal[dest].ploc;
+				--dToTop;
+			}
+			else
+			{
+				totalDist += gal[strt].dist;
+				strt = gal[strt].ploc;
+				--sToTop;
+				totalDist += gal[dest].dist;
+				dest = gal[dest].ploc;
+				--dToTop;
+			}
+
+			if (gal[strt].ploc == gal[dest].ploc)
+			{
+				totalDist += diff(gal[strt].dist, gal[dest].dist);
+				break;
+			}
+			else if (gal[strt].ploc == dest)
+			{
+				totalDist += gal[strt].dist;
+				break;
+			}
+			else if (gal[dest].ploc == strt)
+			{
+				totalDist += gal[dest].dist;
+				break;
+			}
+		}
+		return totalDist;
+	}
+}
+
+float diff(float a, float b)
+{
+	return (a > b) ? a - b : b - a;
+}

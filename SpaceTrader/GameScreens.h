@@ -34,6 +34,8 @@ void makeCargoImg(ElementData* e);
 void makeShipScreenImg(ElementData* e);
 void makeShopNameImg(ElementData* e);
 void makeShopItemImg(ElementData* e);
+void makeFuelCostImg(ElementData* e);
 
 void buyGoods(ElementData* e);
 void sellGoods(ElementData* e);
+void goToObj(ElementData* e);

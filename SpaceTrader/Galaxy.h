@@ -11,6 +11,8 @@ extern obj gal[galSize];
 extern int fuelCost;
 
 void initGalaxy();
+float getFuelCost(int strt, int dest);
+float diff(float a, float b);
 
 
 /*
