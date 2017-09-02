@@ -42,7 +42,7 @@ void initGalaxy()
 		"Venusians refer to the surface as 'The Underworld'.\n"
 		"It has several tourist hotel stations and science bases.\n"
 		"Only unmanned craft descend to explore or gather atmosphere.\n",
-		{ { "synthlife", 1, 115 }, {}, {}, { "food", 1, 12 },{ "water", 1, 15 },
+		{ { "synthlife", 1, 115 }, { "food", 1, 12 },{ "water", 1, 15 }, {}, {},
 		 {}, {}, {}, {}, {} }
 	};
 
