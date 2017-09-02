@@ -16,6 +16,7 @@ Screen helpScreen;
 Screen shipScreen;
 Screen shopScreen;
 Screen starScreen;
+Screen endScreen;
 
 
 
@@ -25,6 +26,7 @@ void initScreens()
 	initShipScreen();
 	initShopScreen();
 	initStarScreen();
+	initEndScreen();
 }
 
 
@@ -80,6 +82,7 @@ void initShipScreen()
 
 	std::string tvstring;
 	ElementData elmdat;
+	ButtonData butDat;
 	VarText vartxt;
 	int idx;
 
@@ -132,22 +135,29 @@ void initShipScreen()
 
 
 
-	/*bay[0] = { "Goods", 3, 0 };
-	bay[1] = { "Stuff", 9183, 0 };
-	bay[2] = { "Stuff", 9183, 0 };
-	bay[3] = { "Stuff", 9183, 0 };
-	bay[4] = { "Stuff", 9183, 0 };
-	bay[5] = { "Stuff", 9183, 0 };
-	bay[6] = { "Stuff", 9183, 0 };
-	bay[7] = { "Stuff", 9183, 0 };
-	bay[8] = { "Stuff", 9183, 0 };
-	bay[9] = { "Stuff", 9183, 0 };*/
+	//Retirement elements
+	elmdat = makeElementData(45, 14, WIN_WIDTH - 46, WIN_HEIGHT - 20, 0x000F);
+	elmdat.imgRenderer = &makeRetirementImg;
+	shipScreen.addElement(elmdat);
+
+	elmdat = makeElementData(70, 17, WIN_WIDTH - 46, 1, 0x000F);
+	elmdat.imgRenderer = &makeRetireCostImg;
+	elmdat.data = "retirehide";
+	shipScreen.addElement(elmdat);
+
+	elmdat = makeElementData(67, 13, 9, 3, 0x000F);
+	elmdat.data = "retirehide";
+	butDat = makeButtonData(true, 0x000B, 0x0009, "Retire", &clickRetire);
+	makeButtonImage(&elmdat, &butDat);
+	idx = shipScreen.addElement(elmdat);
+	shipScreen.addButton(idx, butDat);
+	
 
 
 
 	//Screen buttons
 	elmdat = makeElementData(1, 1, 6, 3, 0x000F);
-	ButtonData butDat = makeButtonData(true, 0x000B, 0x0009, "Help", &switchScreenToHelp);
+	butDat = makeButtonData(true, 0x000B, 0x0009, "Help", &switchScreenToHelp);
 	makeButtonImage(&elmdat, &butDat);
 	idx = shipScreen.addElement(elmdat);
 	shipScreen.addButton(idx, butDat);
@@ -374,6 +384,26 @@ void initStarScreen()
 	starScreen.makeImage();
 }
 
+void initEndScreen()
+{
+	endScreen = Screen();
+	endScreen.setSize(WIN_WIDTH, WIN_HEIGHT);
+
+	std::string tvstring;
+	ElementData elmdat;
+	ButtonData butDat;
+	VarText vartxt;
+	int idx;
+
+
+	elmdat = makeElementData(5, 5, WIN_WIDTH - 10, WIN_HEIGHT - 10, 0x000E);
+	elmdat.imgRenderer = &makeEndImg;
+	endScreen.addElement(elmdat);
+
+
+	endScreen.makeImage();
+}
+
 
 
 void switchScreenToHelp()
@@ -384,6 +414,18 @@ void switchScreenToHelp()
 void switchScreenToShip()
 {
 	screen = &shipScreen;
+
+	for (int i = 0; i < screen->maxElms; ++i)
+	{
+		if (screen->elmDat[i].data == "retirehide" && gal[loc].retire.name == "")
+		{
+			screen->elmDat[i].visible = false;
+		}
+		else
+		{
+			screen->elmDat[i].visible = true;
+		}
+	}
 }
 
 void switchScreenToShop()
@@ -407,6 +449,11 @@ void switchScreenToShop()
 void switchScreenToStar()
 {
 	screen = &starScreen;
+}
+
+void switchScreenToEnd()
+{
+	screen = &endScreen;
 }
 
 
@@ -529,6 +576,15 @@ void goToObj(ElementData* e)
 	{
 		fuel -= fuelCost;
 		loc = dest;
+	}
+}
+
+void clickRetire()
+{
+	if (money >= gal[loc].retire.cost)
+	{
+		money -= gal[loc].retire.cost; //Just in case you can unretire in future updates
+		switchScreenToEnd();
 	}
 }
 
@@ -774,6 +830,130 @@ void makeFuelCostImg(ElementData* e)
 			}
 
 			e->image[x + y * e->sizeX].color = e->textColor;
+		}
+	}
+}
+
+void makeRetirementImg(ElementData* e)
+{
+	e->image = std::vector<CharData>();
+	e->image.resize(e->sizeX * e->sizeY);
+	char ap = ' ';
+
+	std::string text = "RETIREMENT OPTION:\n\n\n";
+
+	if (gal[loc].retire.name == "")
+	{
+		text.append("None");
+	}
+	else
+	{
+		text.append(gal[loc].retire.name);
+		text.append("\n\n\n");
+		text.append(gal[loc].retire.desc);
+	}
+
+
+	int chridx = 0;
+	int chrLine = 0;
+	for (int y = 0; y < e->sizeY; ++y)
+	{
+		for (int x = 0; x < e->sizeX; ++x)
+		{
+			//Text
+			if (chridx < text.size() && y == chrLine)
+			{
+				e->image[x + y * e->sizeX].chr = text[chridx];
+				++chridx;
+				while (chridx < text.size() && text[chridx] == '\n')
+				{
+					++chrLine;
+					++chridx;
+				}
+			}
+
+			//Empty space
+			else
+			{
+				e->image[x + y * e->sizeX].chr = ' ';
+			}
+
+			e->image[x + y * e->sizeX].color = e->textColor;
+		}
+	}
+}
+
+void makeRetireCostImg(ElementData* e)
+{
+	e->image = std::vector<CharData>();
+	e->image.resize(e->sizeX * e->sizeY);
+	char ap = ' ';
+
+	std::string text = "$";
+	text.append(std::to_string(gal[loc].retire.cost));
+
+	int chridx = 0;
+	int chrLine = 0;
+	for (int y = 0; y < e->sizeY; ++y)
+	{
+		for (int x = 0; x < e->sizeX; ++x)
+		{
+			//Text
+			if (chridx < text.size() && y == chrLine)
+			{
+				e->image[x + y * e->sizeX].chr = text[chridx];
+				++chridx;
+				while (chridx < text.size() && text[chridx] == '\n')
+				{
+					++chrLine;
+					++chridx;
+				}
+			}
+
+			//Empty space
+			else
+			{
+				e->image[x + y * e->sizeX].chr = ' ';
+			}
+
+			e->image[x + y * e->sizeX].color = e->textColor;
+		}
+	}
+}
+
+void makeEndImg(ElementData* e)
+{
+	e->image = std::vector<CharData>();
+	e->image.resize(e->sizeX * e->sizeY);
+	char ap = ' ';
+
+	std::string text = gal[loc].retire.endText;
+
+	int chridx = 0;
+	int chrLine = 0;
+	for (int y = 0; y < e->sizeY; ++y)
+	{
+		for (int x = 0; x < e->sizeX; ++x)
+		{
+			//Text
+			if (chridx < text.size() && y == chrLine)
+			{
+				e->image[x + y * e->sizeX].chr = text[chridx];
+				++chridx;
+				while (chridx < text.size() && text[chridx] == '\n')
+				{
+					++chrLine;
+					++chridx;
+				}
+			}
+
+			//Empty space
+			else
+			{
+				e->image[x + y * e->sizeX].chr = ' ';
+			}
+
+			e->image[x + y * e->sizeX].color = gal[loc].retire.color;
 		}
 	}
 }

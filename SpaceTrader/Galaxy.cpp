@@ -25,7 +25,7 @@ void initGalaxy()
 
 
 	gal[0] = { "Mercury", "", 0, 10, 0,
-	{ "RETNAME", 5000, "RETDESC\n" },
+	{ "", 5000, 0x000F, "RETDESC\n" },
 		"MERCURY:\nA slow-turning gray ball orbiting very close to Sol.\n"
 		"Mercury isn't pretty, but it has access to enormous amounts of solar power.\n"
 		"Mobile manufactories slowly move to stay in the night side.\n",
@@ -36,7 +36,7 @@ void initGalaxy()
 
 
 	gal[1] = { "Venus", "", 0, 20, 0,
-	{ "RETNAME", 5000, "RETDESC\n" },
+	{ "", 5000, 0x000F, "RETDESC\n" },
 		"VENUS:\n"
 		"Beneath its tan-yellow clouds, Venus is very hot and always dark.\n"
 		"Venusians refer to the surface as 'The Underworld'.\n"
@@ -49,7 +49,12 @@ void initGalaxy()
 
 
 	gal[2] = { "Earth", "", 0, 40, 0,
-		{ "Paradise Falls", 5000, "A beautiful house in a forest overlooking a waterfall.\n", "You have retired.\n" },
+		{ "Paradise Falls", 5000, 0x000A, "A beautiful house in a forest overlooking a waterfall.\n",
+		"The sun sets in brilliant pinks, yellows and blues.\n\n"
+		"Birds sing and flutter from tree to tree, while the water rumbles down.\n\n"
+		"Sitting on your wooden balcony, surrounded by the luxuries of the homeworld, you wonder\n"
+		"    why did anyone ever leave this beautiful planet?\n\n\n\n\n"
+		"Congratulations, you've won!\n"},
 		"EARTH:\n"
 		"The beautiful and fertile homeworld of humanity.\n"
 		"Earth is the most populous, wealthy, and powerful object around Sol.\n"
@@ -60,7 +65,16 @@ void initGalaxy()
 	};
 
 	gal[3] = { "Luna", "Earth", 0, 5, 0,
-		{ "Stardome House", 5000, "A retirement home with a fantastic sky dome.\n", "You have retired.\n" },
+		{ "Stardome House", 10000, 0x0007, "A retirement home with a fantastic sky dome.\n",
+		"The crystal-clear plastic dome stands fifty meters from your house.\n\n"
+		"The vast sky amazes you every time you rise up the stairs from the tunnel.\n\n"
+		"Here in the Leibnitz crater, there are almost no crater walls to obstruct the view.\n\n"
+		"When the sun is up, it turns the plain blinding white.\n\n"
+		"But today the sky and ground are black.\n\n\n\n"
+		"Your eyes adjust slowly, and the stars begin to shine.\n\n"
+		"With no atmosphere or lights, you can see more stars than anyone on Earth.\n\n"
+		"You are unable to describe the awe of the Milky Way.\n\n\n\n\n"
+		"Congratulations, you've won!\n"},
 		"LUNA:\n"
 		"Known by Earthers as 'The Moon'.\n"
 		"Luna produces little of its own, but has many specialized facilities.\n"
@@ -73,7 +87,14 @@ void initGalaxy()
 
 
 	gal[4] = { "Mars", "", 0, 80, 0,
-		{ "Mariner's Rest", 5000, "A nice colonial-style house overlooking the Valles Marineris.\n", "You have retired.\n" },
+		{ "Mariner's Rest", 4000, 0x000E, "A nice colonial-style house overlooking the Valles Marineris.\n",
+		"Your house was built with the white pod architecture style of the early colonists.\n\n"
+		"Of course, it is much safer and has modern luxiries.\n\n"
+		"The vast canyons and plateaus of the Valles Marineris stretch out in your windows.\n\n"
+		"In a few places, the orange landscape is discolored with engineered lichens.\n\n"
+		"Over the years you see the lichens slowly spread, and tourism increase.\n\n"
+		"It's like an orange canvas being painted with life.\n\n\n\n\n"
+		"Congratulations, you've won!\n"},
 		"MARS:\n"
 		"The first planet colonized by humankind.\n"
 		"Mars is known for its orange color, prosperity, and natural wonders.\n"
@@ -86,7 +107,7 @@ void initGalaxy()
 
 
 	gal[5] = { "Ceres", "", 0, 160, 0,
-		{ "None", 0, "Why would you retire here?\n", "" },
+		{ "", 0, 0x000F, "Why would you retire here?\n", "" },
 		"CERES:\n"
 		"The largest dwarf planet in the asteroid belt.\n"
 		"Ceres is the main hub for miners in the A-belt.\n"

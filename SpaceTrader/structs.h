@@ -26,6 +26,7 @@ struct retirement
 {
 	std::string name;
 	int cost;
+	int color;
 	std::string desc;
 	std::string endText;
 };

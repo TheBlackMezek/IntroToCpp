@@ -9,6 +9,7 @@ extern Screen helpScreen;
 extern Screen shipScreen;
 extern Screen shopScreen;
 extern Screen starScreen;
+extern Screen endScreen;
 
 void initScreens();
 
@@ -20,11 +21,14 @@ void initShopScreen();
 
 void initStarScreen();
 
+void initEndScreen();
+
 
 void switchScreenToHelp();
 void switchScreenToShip();
 void switchScreenToShop();
 void switchScreenToStar();
+void switchScreenToEnd();
 
 
 
@@ -35,7 +39,11 @@ void makeShipScreenImg(ElementData* e);
 void makeShopNameImg(ElementData* e);
 void makeShopItemImg(ElementData* e);
 void makeFuelCostImg(ElementData* e);
+void makeRetirementImg(ElementData* e);
+void makeRetireCostImg(ElementData* e);
+void makeEndImg(ElementData* e);
 
 void buyGoods(ElementData* e);
 void sellGoods(ElementData* e);
 void goToObj(ElementData* e);
+void clickRetire();
