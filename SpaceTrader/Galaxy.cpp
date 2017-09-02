@@ -29,7 +29,7 @@ void initGalaxy()
 		"MERCURY:\nA slow-turning gray ball orbiting very close to Sol.\n"
 		"Mercury isn't pretty, but it has access to enormous amounts of solar power.\n"
 		"Mobile manufactories slowly move to stay in the night side.\n",
-		{ { "machines", 1, 27 },{ "tech", 1, 25 },{ "food", 1, 13 },{ "water", 1, 18 },{ "metal", 1, 20 },
+		{ { "tech", 1, 25 },{ "food", 1, 13 },{ "water", 1, 23 },{ "metal", 1, 20 },{},
 		 {}, {}, {}, {}, {} }
 	};
 
@@ -42,14 +42,14 @@ void initGalaxy()
 		"Venusians refer to the surface as 'The Underworld'.\n"
 		"It has several tourist hotel stations and science bases.\n"
 		"Only unmanned craft descend to explore or gather atmosphere.\n",
-		{ { "synthlife", 1, 115 }, { "food", 1, 12 },{ "water", 1, 15 }, {}, {},
+		{ { "synthlife", 1, 150 }, { "tech", 1, 40 },{ "water", 1, 19 }, {}, {},
 		 {}, {}, {}, {}, {} }
 	};
 
 
 
 	gal[2] = { "Earth", "", 0, 40, 0,
-		{ "Paradise Falls", 5000, 0x000A, "A beautiful house in a forest overlooking a waterfall.\n",
+		{ "Paradise Falls", 1000, 0x000A, "A beautiful house in a forest next to a waterfall.\n",
 		"The sun sets in brilliant pinks, yellows and blues.\n\n"
 		"Birds sing and flutter from tree to tree, while the water rumbles down.\n\n"
 		"Sitting on your wooden balcony, surrounded by the luxuries of the homeworld, you wonder\n"
@@ -65,12 +65,12 @@ void initGalaxy()
 	};
 
 	gal[3] = { "Luna", "Earth", 0, 5, 0,
-		{ "Stardome House", 10000, 0x0007, "A retirement home with a fantastic sky dome.\n",
+		{ "Stardome House", 5000, 0x0007, "A retirement home with a fantastic sky dome.\n",
 		"The crystal-clear plastic dome stands fifty meters from your house.\n\n"
 		"The vast sky amazes you every time you rise up the stairs from the tunnel.\n\n"
 		"Here in the Leibnitz crater, there are almost no crater walls to obstruct the view.\n\n"
 		"When the sun is up, it turns the plain blinding white.\n\n"
-		"But today the sky and ground are black.\n\n\n\n"
+		"But now the sky and ground are black.\n\n\n\n"
 		"Your eyes adjust slowly, and the stars begin to shine.\n\n"
 		"With no atmosphere or lights, you can see more stars than anyone on Earth.\n\n"
 		"You are unable to describe the awe of the Milky Way.\n\n\n\n\n"
@@ -80,14 +80,14 @@ void initGalaxy()
 		"Luna produces little of its own, but has many specialized facilities.\n"
 		"Low-g, no atmosphere, and proximity to Earth bring tourists and scientists.\n"
 		"It is known as one of the few producers of synthlife.\n",
-		{ { "synthlife", 1, 100 },{ "food", 1, 12 },{ "water", 1, 11 },{ "tech", 1, 35 }, {},
+		{ { "synthlife", 1, 100 },{ "water", 1, 12 }, {}, {},{},
 		{}, {}, {}, {}, {} }
 	};
 
 
 
 	gal[4] = { "Mars", "", 0, 80, 0,
-		{ "Mariner's Rest", 4000, 0x000E, "A nice colonial-style house overlooking the Valles Marineris.\n",
+		{ "Mariner's Rest", 3000, 0x000E, "A nice colonial-style house overlooking the Valles Marineris.\n",
 		"Your house was built with the white pod architecture style of the early colonists.\n\n"
 		"Of course, it is much safer and has modern luxiries.\n\n"
 		"The vast canyons and plateaus of the Valles Marineris stretch out in your windows.\n\n"

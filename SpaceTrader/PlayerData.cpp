@@ -7,6 +7,6 @@ int itemsInBay = 0;
 cargo bay[baySize];
 float maxFuel = 100.0f;
 float fuel = maxFuel;
-int loc = 4;
+int loc = 2;
 int money = 200;
 std::string shipName = "";
