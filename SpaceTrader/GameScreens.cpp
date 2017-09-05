@@ -36,7 +36,14 @@ void initHelpScreen()
 	helpScreen = Screen();
 	helpScreen.setSize(WIN_WIDTH, WIN_HEIGHT);
 
-	std::string termStr = "TERMINOLOGY:\n\n"
+	std::string termStr = 
+		"HOW TO PLAY:\n\n"
+		"Buy goods and fuel using the 'Shop' screen.\n"
+		"Fly from one object to another using the 'Star' screen.\n"
+		"Sell your goods somewhere else for a profit!\n"
+		"When you're rich enough, look around for somewhere to retire.\n"
+		"Every retirement location will provide a different experience.\n\n\n\n"
+		"TERMINOLOGY:\n\n"
 		"object - Anything in space, be it planet, moon, star, or ship.\n"
 		"satellite - Anything in orbit of something else.\n"
 		"    Moons are satellites of planets.\n"
@@ -44,7 +51,7 @@ void initHelpScreen()
 		"synthlife - Artificial plants and animals.\n"
 		"    Some are for pleasure, but most are for utility.\n"
 		"    Most cannot reproduce and must be manufactured.\n";
-	ElementData elmdat = makeElementData(10, 10, WIN_WIDTH - 20, 10, 0x000F);
+	ElementData elmdat = makeElementData(10, 10, WIN_WIDTH - 20, WIN_HEIGHT - 20, 0x000F);
 	makeTextImageMultiLine(false, termStr.c_str(), termStr.size(), &elmdat);
 	helpScreen.addElement(elmdat);
 	
