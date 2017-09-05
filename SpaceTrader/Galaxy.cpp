@@ -87,7 +87,7 @@ void initGalaxy()
 
 
 	gal[4] = { "Mars", "", 0, 80, 0,
-		{ "Mariner's Rest", 3000, 0x000E, "A nice colonial-style house overlooking the Valles Marineris.\n",
+		{ "Mariner's Rest", 3000, 0x000E, "A nice colonial-style house overlooking the\nValles Marineris.\n",
 		"Your house was built with the white pod architecture style of the early colonists.\n\n"
 		"Of course, it is much safer and has modern luxiries.\n\n"
 		"The vast canyons and plateaus of the Valles Marineris stretch out in your windows.\n\n"

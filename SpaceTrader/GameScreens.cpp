@@ -57,7 +57,7 @@ void initHelpScreen()
 		"    Moons are satellites of planets.\n"
 		"\n"
 		"synthlife - Artificial plants and animals.\n"
-		"    Some are for pleasure, but most are for utility.\n"
+		"    Some are pets, but most are for utility.\n"
 		"    Most cannot reproduce and must be manufactured.\n";
 	ElementData elmdat = makeElementData(10, 10, WIN_WIDTH - 20, WIN_HEIGHT - 20, 0x000F);
 	makeTextImageMultiLine(false, termStr.c_str(), termStr.size(), &elmdat);
