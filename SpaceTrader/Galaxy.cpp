@@ -29,7 +29,7 @@ void initGalaxy()
 		"MERCURY:\nA slow-turning gray ball orbiting very close to Sol.\n"
 		"Mercury isn't pretty, but it has access to enormous amounts of solar power.\n"
 		"Mobile manufactories slowly move to stay in the night side.\n",
-		{ { "tech", 1, 25 },{ "food", 1, 13 },{ "water", 1, 23 },{ "metal", 1, 20 },{},
+		{ { "tech", 1, 25 },{ "water", 1, 23 },{ "metal", 1, 100},{ "machines", 1, 110 },{},
 		 {}, {}, {}, {}, {} }
 	};
 
@@ -42,7 +42,7 @@ void initGalaxy()
 		"Venusians refer to the surface as 'The Underworld'.\n"
 		"It has several tourist hotel stations and science bases.\n"
 		"Only unmanned craft descend to explore or gather atmosphere.\n",
-		{ { "synthlife", 1, 150 }, { "tech", 1, 40 },{ "water", 1, 19 }, {}, {},
+		{ { "synthlife", 1, 600 }, { "tech", 1, 40 },{ "water", 1, 19 }, {}, {},
 		 {}, {}, {}, {}, {} }
 	};
 
@@ -60,7 +60,7 @@ void initGalaxy()
 		"Earth is the most populous, wealthy, and powerful object around Sol.\n"
 		"It remains divided into several alliances of sovereign nations.\n"
 		"Earthers are fascinated by the exotic products from 'outer space'.\n",
-		{ { "water", 1, 10 }, { "synthlife", 1, 105 }, {}, {}, {},
+		{ { "water", 1, 10 }, { "synthlife", 1, 550 }, {}, {}, {},
 		{}, {}, {}, {}, {} }
 	};
 
@@ -80,7 +80,7 @@ void initGalaxy()
 		"Luna produces little of its own, but has many specialized facilities.\n"
 		"Low-g, no atmosphere, and proximity to Earth bring tourists and scientists.\n"
 		"It is known as one of the few producers of synthlife.\n",
-		{ { "synthlife", 1, 100 },{ "water", 1, 12 }, {}, {},{},
+		{ { "synthlife", 1, 500 },{ "water", 1, 12 }, { "machines", 1, 80 }, { "tech", 1, 65 },{},
 		{}, {}, {}, {}, {} }
 	};
 
@@ -100,7 +100,7 @@ void initGalaxy()
 		"Mars is known for its orange color, prosperity, and natural wonders.\n"
 		"Mars is by far the most populous planet after Earth.\n"
 		"It serves as a gateway between the inner and outer solar system.\n",
-		{ { "food", 1, 8 }, { "water", 1, 10 },{ "synthlife", 1, 110 },{ "machines", 1, 30 },{},
+		{ { "water", 1, 11 },{ "machines", 1, 50 },{ "synthlife", 1, 600 },{ "metal", 1, 50 },{},
 		{}, {}, {}, {}, {} }
 	};
 
@@ -113,7 +113,7 @@ void initGalaxy()
 		"Ceres is the main hub for miners in the A-belt.\n"
 		"It houses administration, refineries, factories, shipyards, and ports.\n"
 		"It's not an attractive place and receives few tourists.\n",
-		{ { "machines", 1, 25 }, { "metals", 1, 10 }, { "food", 1, 13 },{ "water", 1, 12 },{ "tech", 1, 30 },
+		{ { "water", 1, 30 },{ "tech", 1, 30 },{ "metal", 1, 20 },{},{},
 		{}, {}, {}, {}, {} }
 	};
 

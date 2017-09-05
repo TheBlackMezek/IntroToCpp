@@ -41,3 +41,12 @@ Screen should start in the same orbit as the player
 A button needs to store the loc idx of its object
 
 */
+
+
+/*
+
+Player feedback:
+Need a way to fill up on fuel
+Markets are messed up, metal vs metals and can't sell machines
+
+*/
