@@ -353,6 +353,11 @@ void initStarScreen()
 	elmdat.imgRenderer = &makeCurrentOrbitImg;
 	starScreen.addElement(elmdat);
 
+	//Decoration
+	elmdat = makeElementData(59, 1, 50, 10, 0x000E);
+	elmdat.imgRenderer = &makeStarSystemImg;
+	starScreen.addElement(elmdat);
+
 
 
 	int starScreenX = 10;
@@ -1014,6 +1019,78 @@ void makeEndImg(ElementData* e)
 			}
 
 			e->image[x + y * e->sizeX].color = gal[loc].retire.color;
+		}
+	}
+}
+
+void makeStarSystemImg(ElementData* e)
+{
+	e->image = std::vector<CharData>();
+	e->image.resize(e->sizeX * e->sizeY);
+	char ap = ' ';
+
+	std::string text = 
+		"%W         \\     \\       |             |  \n"
+		"  %Y***%W     \\    o       |             |  \n"
+		" %Y*****%W    |    |       |             |  \n"
+		"%Y*******%W   %Go%W    |       |             |  \n"
+		" %Y*****%W    |    |       %Bo%G.%W            |  \n"
+		"  %Y***%W     /    |       |             |  \n"
+		"         /     /       |             |  \n";
+
+
+	int chridx = 0;
+	int chrLine = 0;
+	int color = 0x000F;
+	for (int y = 0; y < e->sizeY; ++y)
+	{
+		for (int x = 0; x < e->sizeX; ++x)
+		{
+			//Text
+			if (chridx < text.size() && y == chrLine)
+			{
+				if (chridx < text.size() - 1 &&
+					text[chridx] == '%')
+				{
+					if (text[chridx + 1] == 'W')
+					{
+						color = 0x000F;
+						chridx += 2;
+					}
+					else if (text[chridx + 1] == 'Y')
+					{
+						color = 0x000E;
+						chridx += 2;
+					}
+					else if (text[chridx + 1] == 'G')
+					{
+						color = 0x0007;
+						chridx += 2;
+					}
+					else if (text[chridx + 1] == 'B')
+					{
+						color = 0x0009;
+						chridx += 2;
+					}
+				}
+
+
+				e->image[x + y * e->sizeX].chr = text[chridx];
+				++chridx;
+				while (chridx < text.size() && text[chridx] == '\n')
+				{
+					++chrLine;
+					++chridx;
+				}
+			}
+
+			//Empty space
+			else
+			{
+				e->image[x + y * e->sizeX].chr = ' ';
+			}
+
+			e->image[x + y * e->sizeX].color = color;
 		}
 	}
 }

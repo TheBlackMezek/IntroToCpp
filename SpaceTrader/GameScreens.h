@@ -42,6 +42,7 @@ void makeFuelCostImg(ElementData* e);
 void makeRetirementImg(ElementData* e);
 void makeRetireCostImg(ElementData* e);
 void makeEndImg(ElementData* e);
+void makeStarSystemImg(ElementData* e);
 
 void buyGoods(ElementData* e);
 void sellGoods(ElementData* e);
