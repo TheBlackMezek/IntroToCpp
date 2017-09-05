@@ -204,7 +204,10 @@ void initShopScreen()
 	int idx;
 
 
-
+	//Decoration
+	elmdat = makeElementData(50, 1, 50, 10, 0x000E);
+	elmdat.imgRenderer = &makeShopPlanetImg;
+	shopScreen.addElement(elmdat);
 
 	//Market name
 	elmdat = makeElementData(10, 8, WIN_WIDTH - 10, 1, 0x000E);
@@ -1032,8 +1035,8 @@ void makeStarSystemImg(ElementData* e)
 
 	std::string text = 
 		"%W         \\     \\       |             |  \n"
-		"  %Y***%W     \\    o       |             |  \n"
-		" %Y*****%W    |    |       |             |  \n"
+		"  %Y***%W     \\    %yo%W       |            %G.%W|  \n"
+		" %Y*****%W    |    |       |             %Ro%G.%W \n"
 		"%Y*******%W   %Go%W    |       |             |  \n"
 		" %Y*****%W    |    |       %Bo%G.%W            |  \n"
 		"  %Y***%W     /    |       |             |  \n"
@@ -1063,6 +1066,11 @@ void makeStarSystemImg(ElementData* e)
 						color = 0x000E;
 						chridx += 2;
 					}
+					else if (text[chridx + 1] == 'y')
+					{
+						color = 0x0006;
+						chridx += 2;
+					}
 					else if (text[chridx + 1] == 'G')
 					{
 						color = 0x0007;
@@ -1071,6 +1079,154 @@ void makeStarSystemImg(ElementData* e)
 					else if (text[chridx + 1] == 'B')
 					{
 						color = 0x0009;
+						chridx += 2;
+					}
+					else if (text[chridx + 1] == 'R')
+					{
+						color = 0x000C;
+						chridx += 2;
+					}
+				}
+
+
+				e->image[x + y * e->sizeX].chr = text[chridx];
+				++chridx;
+				while (chridx < text.size() && text[chridx] == '\n')
+				{
+					++chrLine;
+					++chridx;
+				}
+			}
+
+			//Empty space
+			else
+			{
+				e->image[x + y * e->sizeX].chr = ' ';
+			}
+
+			e->image[x + y * e->sizeX].color = color;
+		}
+	}
+}
+
+void makeShopPlanetImg(ElementData* e)
+{
+	e->image = std::vector<CharData>();
+	e->image.resize(e->sizeX * e->sizeY);
+	char ap = ' ';
+
+	//Template
+	std::string text =
+		"                                        \n"
+		"                                        \n"
+		"                                        \n"
+		"                                        \n"
+		"                                        \n"
+		"                                        \n"
+		"                                        \n";
+
+	//Mercury
+	if (loc == 0)
+	{
+		text =
+			"            %Y-- ********* --             \n"
+			"               / ***** \\                \n"
+			"              /    |    \\               \n"
+			"                                        \n"
+			"                                        \n"
+			"                                        \n"
+			"%g----------------------------------------\n";
+	}
+	//Venus
+	else if (loc == 1)
+	{
+		text =
+			"                  T                     \n"
+			"      +--------+  |  +--------+         \n"
+			"      |%B########%W|--0--|%B########%W|         \n"
+			"      +--------+  |  +--------+         \n"
+			"                  V                     \n"
+			"                                        \n"
+			"                                        \n";
+	}
+	//Earth
+	else if (loc == 2)
+	{
+		text =
+			"                 %G&&&&&                  \n"
+			"              &&&&&&&&&&&               \n"
+			"             &&&&&&&&&&&&&              \n"
+			"              & %y---#---                 \n"
+			"                   #                    \n"
+			"                   #                    \n"
+			"                   #                    \n";
+	}
+	//Lunra
+	else if (loc == 3)
+	{
+		text =
+			"                  %B=%W==%B=                  \n"
+			"                 %G=%B==%G===                \n"
+			"                 %B====%G==                \n"
+			"         %W___      %W====                  \n"
+			"     %W_   %W|%b#%W|                            \n"
+			"    %W/%b0%W\\  %W|%b#%W|                            \n"
+			"%g----------------------------------------\n";
+	}
+
+
+
+	int chridx = 0;
+	int chrLine = 0;
+	int color = 0x000F;
+	for (int y = 0; y < e->sizeY; ++y)
+	{
+		for (int x = 0; x < e->sizeX; ++x)
+		{
+			//Text
+			if (chridx < text.size() && y == chrLine)
+			{
+				if (chridx < text.size() - 1 &&
+					text[chridx] == '%')
+				{
+					if (text[chridx + 1] == 'W')
+					{
+						color = 0x000F;
+						chridx += 2;
+					}
+					else if (text[chridx + 1] == 'Y') //yellow
+					{
+						color = 0x000E;
+						chridx += 2;
+					}
+					else if (text[chridx + 1] == 'y') //brownish yellow
+					{
+						color = 0x0006;
+						chridx += 2;
+					}
+					else if (text[chridx + 1] == 'G') //green
+					{
+						color = 0x000A;
+						chridx += 2;
+					}
+					else if (text[chridx + 1] == 'g') //gray
+					{
+						color = 0x0007;
+						chridx += 2;
+					}
+					else if (text[chridx + 1] == 'b')
+					{
+						color = 0x000B;
+						chridx += 2;
+					}
+					else if (text[chridx + 1] == 'B')
+					{
+						color = 0x0009;
+						chridx += 2;
+					}
+					else if (text[chridx + 1] == 'R')
+					{
+						color = 0x000C;
 						chridx += 2;
 					}
 				}
