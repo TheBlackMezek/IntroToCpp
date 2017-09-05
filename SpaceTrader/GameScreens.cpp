@@ -256,11 +256,6 @@ void initShopScreen()
 	shopScreen.addElement(elmdat);
 
 	//Fuel purchase display
-	elmdat = makeElementData(72, 14, 30, 3, 0x000F);
-	tvstring = "$1 / $2  fuel";
-	makeTextImage(false, tvstring.c_str(), tvstring.size(), &elmdat);
-	shopScreen.addElement(elmdat);
-
 	elmdat = makeElementData(55, 14, 4, 3, 0x000F);
 	elmdat.data = "fuel";
 	butDat = makeButtonData(true, 0x000C, 0x0004, "-1", NULL);
@@ -277,12 +272,24 @@ void initShopScreen()
 	idx = shopScreen.addElement(elmdat);
 	shopScreen.addButton(idx, butDat);
 
-	elmdat = makeElementData(65, 14, 6, 3, 0x000F);
+	elmdat = makeElementData(65, 14, 4, 3, 0x000F);
+	butDat = makeButtonData(true, 0x000A, 0x0002, "+5", NULL);
+	butDat.dataCallback = &buyFiveFuel;
+	makeButtonImage(&elmdat, &butDat);
+	idx = shopScreen.addElement(elmdat);
+	shopScreen.addButton(idx, butDat);
+
+	elmdat = makeElementData(70, 14, 6, 3, 0x000F);
 	butDat = makeButtonData(true, 0x000A, 0x0002, "+max", NULL);
 	butDat.dataCallback = &fillFuel;
 	makeButtonImage(&elmdat, &butDat);
 	idx = shopScreen.addElement(elmdat);
 	shopScreen.addButton(idx, butDat);
+
+	elmdat = makeElementData(77, 14, 30, 3, 0x000F);
+	tvstring = "$1 / $2  fuel";
+	makeTextImage(false, tvstring.c_str(), tvstring.size(), &elmdat);
+	shopScreen.addElement(elmdat);
 
 
 
@@ -751,6 +758,16 @@ void fillFuel(ElementData* e)
 	
 	money -= fuelCost * amt;
 	fuel += amt;
+}
+
+void buyFiveFuel(ElementData* e)
+{
+	int amt = 5;
+	if (amt * fuelCost <= money)
+	{
+		money -= fuelCost * amt;
+		fuel += amt;
+	}
 }
 
 void buyMax(ElementData* e)
