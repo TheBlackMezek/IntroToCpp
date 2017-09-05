@@ -49,4 +49,8 @@ Player feedback:
 Need a way to fill up on fuel
 Markets are messed up, metal vs metals and can't sell machines
 
+Tab buttons should stay in the same place
+Need a way to know where things can be sold
+A way to fill up with a good would be nice
+
 */

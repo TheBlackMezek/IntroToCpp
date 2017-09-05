@@ -41,7 +41,6 @@ struct obj
 	retirement retire;
 	std::string desc;
 	cargo goods[goodsSize];
-	//cargo wants[wantsSize];
 };
 
 

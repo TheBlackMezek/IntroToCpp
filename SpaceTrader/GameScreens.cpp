@@ -63,19 +63,19 @@ void initHelpScreen()
 
 
 	//Screen buttons
-	elmdat = makeElementData(1, 1, 6, 3, 0x000F);
+	elmdat = makeElementData(8, 1, 6, 3, 0x000F);
 	ButtonData butDat = makeButtonData(true, 0x000B, 0x0009, "Ship", &switchScreenToShip);
 	makeButtonImage(&elmdat, &butDat);
 	int idx = helpScreen.addElement(elmdat);
 	helpScreen.addButton(idx, butDat);
 
-	elmdat = makeElementData(8, 1, 6, 3, 0x000F);
+	elmdat = makeElementData(15, 1, 6, 3, 0x000F);
 	butDat = makeButtonData(true, 0x000B, 0x0009, "Shop", &switchScreenToShop);
 	makeButtonImage(&elmdat, &butDat);
 	idx = helpScreen.addElement(elmdat);
 	helpScreen.addButton(idx, butDat);
 
-	elmdat = makeElementData(15, 1, 6, 3, 0x000F);
+	elmdat = makeElementData(22, 1, 6, 3, 0x000F);
 	butDat = makeButtonData(true, 0x000B, 0x0009, "Star", &switchScreenToStar);
 	makeButtonImage(&elmdat, &butDat);
 	idx = helpScreen.addElement(elmdat);
@@ -174,13 +174,13 @@ void initShipScreen()
 	idx = shipScreen.addElement(elmdat);
 	shipScreen.addButton(idx, butDat);
 
-	elmdat = makeElementData(8, 1, 6, 3, 0x000F);
+	elmdat = makeElementData(15, 1, 6, 3, 0x000F);
 	butDat = makeButtonData(true, 0x000B, 0x0009, "Shop", &switchScreenToShop);
 	makeButtonImage(&elmdat, &butDat);
 	idx = shipScreen.addElement(elmdat);
 	shipScreen.addButton(idx, butDat);
 
-	elmdat = makeElementData(15, 1, 6, 3, 0x000F);
+	elmdat = makeElementData(22, 1, 6, 3, 0x000F);
 	butDat = makeButtonData(true, 0x000B, 0x0009, "Star", &switchScreenToStar);
 	makeButtonImage(&elmdat, &butDat);
 	idx = shipScreen.addElement(elmdat);
@@ -321,7 +321,7 @@ void initShopScreen()
 	idx = shopScreen.addElement(elmdat);
 	shopScreen.addButton(idx, butDat);
 
-	elmdat = makeElementData(15, 1, 6, 3, 0x000F);
+	elmdat = makeElementData(22, 1, 6, 3, 0x000F);
 	butDat = makeButtonData(true, 0x000B, 0x0009, "Star", &switchScreenToStar);
 	makeButtonImage(&elmdat, &butDat);
 	idx = shopScreen.addElement(elmdat);
