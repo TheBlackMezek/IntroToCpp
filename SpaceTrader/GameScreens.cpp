@@ -46,8 +46,8 @@ void initHelpScreen()
 		"When you're rich, look around for somewhere to retire, using the 'Ship' screen.\n"
 		"Every retirement location will provide a different experience.\n\n"
 		"If you run out of fuel and money, don't give up!\n"
-		"Nobody knows the best trade routes to begin with.\n"
 		"The 'Lore' screen can help you figure out exports/imports.\n"
+		"Nobody knows the best trade routes to begin with.\n"
 		"Restart the game and try again!\n\n"
 		"Press 'Esc' at any time to exit.\n"
 		"\n\n\n"
@@ -1384,12 +1384,12 @@ void makeShopPlanetImg(ElementData* e)
 	{
 		text =
 			"     %W.                                %W. \n"
-			"                %g//====o\\\\               \n"
-			"              %g//===0=====\\\\  %W.          \n"
-			"              %g|===========|             \n"
-			"   %W.          %g|=====0===o=|       %W.     \n"
-			"              %g\\\\==o======//           %W. \n"
-			"            %W.   %g\\\\=====//               \n";
+			"                 %g/==o=\\                 \n"
+			"                %g/======\\    %W.          \n"
+			"               %g|==0=====|             \n"
+			"   %W.           %g|======o=|       %W.     \n"
+			"                %g\\====o=/            %W. \n"
+			"             %W.   %g\\====/                 \n";
 	}
 
 
