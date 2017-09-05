@@ -45,5 +45,6 @@ void makeEndImg(ElementData* e);
 
 void buyGoods(ElementData* e);
 void sellGoods(ElementData* e);
+void fillFuel(ElementData* e);
 void goToObj(ElementData* e);
 void clickRetire();

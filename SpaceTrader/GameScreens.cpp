@@ -226,7 +226,7 @@ void initShopScreen()
 	shopScreen.addElement(elmdat);
 
 	//Fuel purchase display
-	elmdat = makeElementData(60, 14, 30, 3, 0x000F);
+	elmdat = makeElementData(68, 14, 30, 3, 0x000F);
 	tvstring = "$1 / $2  fuel";
 	makeTextImage(false, tvstring.c_str(), tvstring.size(), &elmdat);
 	shopScreen.addElement(elmdat);
@@ -239,11 +239,17 @@ void initShopScreen()
 	idx = shopScreen.addElement(elmdat);
 	shopScreen.addButton(idx, butDat);
 
-
 	elmdat = makeElementData(56, 14, 4, 3, 0x000F);
 	elmdat.data = "fuel";
 	butDat = makeButtonData(true, 0x000A, 0x0002, "+1", NULL);
 	butDat.dataCallback = &buyGoods;
+	makeButtonImage(&elmdat, &butDat);
+	idx = shopScreen.addElement(elmdat);
+	shopScreen.addButton(idx, butDat);
+
+	elmdat = makeElementData(61, 14, 6, 3, 0x000F);
+	butDat = makeButtonData(true, 0x000A, 0x0002, "+max", NULL);
+	butDat.dataCallback = &fillFuel;
 	makeButtonImage(&elmdat, &butDat);
 	idx = shopScreen.addElement(elmdat);
 	shopScreen.addButton(idx, butDat);
@@ -565,6 +571,18 @@ void sellGoods(ElementData* e)
 			}
 		}
 	}
+}
+
+void fillFuel(ElementData* e)
+{
+	int amt = maxFuel - fuel;
+	if (amt * fuelCost > money)
+	{
+		amt = money / fuelCost;
+	}
+	
+	money -= fuelCost * amt;
+	fuel += amt;
 }
 
 void goToObj(ElementData* e)
