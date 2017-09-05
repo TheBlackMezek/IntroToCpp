@@ -43,10 +43,11 @@ void initHelpScreen()
 		"Buy goods and fuel using the 'Shop' screen.\n"
 		"Fly from one object to another using the 'Star' screen.\n"
 		"Sell your goods somewhere else for a profit!\n"
-		"When you're rich enough, look around for somewhere to retire.\n"
+		"When you're rich, look around for somewhere to retire, using the 'Ship' screen.\n"
 		"Every retirement location will provide a different experience.\n\n"
 		"If you run out of fuel and money, don't give up!\n"
 		"Nobody knows the best trade routes to begin with.\n"
+		"The 'Lore' screen can help you figure out exports/imports.\n"
 		"Restart the game and try again!\n\n"
 		"Press 'Esc' at any time to exit.\n"
 		"\n\n\n"
@@ -1354,17 +1355,41 @@ void makeShopPlanetImg(ElementData* e)
 			"                   #                    \n"
 			"                   #                    \n";
 	}
-	//Lunra
+	//Luna
 	else if (loc == 3)
 	{
 		text =
 			"                  %B=%W==%B=                  \n"
 			"                 %G=%B==%G===                \n"
 			"                 %B====%G==                \n"
-			"         %W___      %W====                  \n"
-			"     %W_   %W|%b#%W|                            \n"
-			"    %W/%b0%W\\  %W|%b#%W|                            \n"
+			"                  %W====          %W___  \n"
+			"     %W_                          %W|%b#%W|  \n"
+			"    %W/%b0%W\\                         %W|%b#%W|  \n"
 			"%g----------------------------------------\n";
+	}
+	//Mars
+	else if (loc == 4)
+	{
+		text =
+			"      %Wo              %Y**            %Wo    \n"
+			"                     %Y**       %g^         \n"
+			"     %g______                  %g/|\\        \n"
+			"    %g/=====|                   %g^         \n"
+			"   %g/======|                   %W#         \n"
+			"   %g|======|                %W# # ##       \n"
+			"%R----------------------------------------\n";
+	}
+	//Ceres
+	else if (loc == 5)
+	{
+		text =
+			"     %W.                                %W. \n"
+			"                %g//====o\\\\               \n"
+			"              %g//===0=====\\\\  %W.          \n"
+			"              %g|===========|             \n"
+			"   %W.          %g|=====0===o=|       %W.     \n"
+			"              %g\\\\==o======//           %W. \n"
+			"            %W.   %g\\\\=====//               \n";
 	}
 
 
