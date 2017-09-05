@@ -80,7 +80,7 @@ void initGalaxy()
 		"Luna produces little of its own, but has many specialized facilities.\n"
 		"Low-g, no atmosphere, and proximity to Earth bring tourists and scientists.\n"
 		"It is known as one of the few producers of synthlife.\n",
-		{ { "synthlife", 1, 500 },{ "water", 1, 12 }, { "machines", 1, 80 }, { "tech", 1, 65 },{},
+		{ { "synthlife", 1, 500 },{ "water", 1, 13 }, { "machines", 1, 80 }, { "tech", 1, 65 },{},
 		{}, {}, {}, {}, {} }
 	};
 
