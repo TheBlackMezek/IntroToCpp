@@ -46,6 +46,8 @@ void makeShopPlanetImg(ElementData* e);
 
 void buyGoods(ElementData* e);
 void sellGoods(ElementData* e);
+void buyMax(ElementData* e);
+void sellAll(ElementData* e);
 void fillFuel(ElementData* e);
 void goToObj(ElementData* e);
 void clickRetire();

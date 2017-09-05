@@ -224,43 +224,43 @@ void initShopScreen()
 	shopScreen.addElement(elmdat);
 
 	//Market name
-	elmdat = makeElementData(10, 8, WIN_WIDTH - 10, 1, 0x000E);
+	elmdat = makeElementData(8, 8, WIN_WIDTH - 10, 1, 0x000E);
 	elmdat.imgRenderer = &makeShopNameImg;
 	shopScreen.addElement(elmdat);
 
 	//Money, Fuel & Cargo displays
 	tvstring = "Money: $%i";
-	elmdat = makeElementData(51, 10, 30, 1, 0x000E);
+	elmdat = makeElementData(55, 10, 30, 1, 0x000E);
 	vartxt = makeVarText(tvstring, 0, &money);
 	makeTextImageWithVars(false, tvstring.c_str(), tvstring.size(), &elmdat, &vartxt);
 	idx = shopScreen.addElement(elmdat);
 	shopScreen.addVarText(idx, vartxt);
 
 	tvstring = "Fuel: %f";
-	elmdat = makeElementData(51, 12, 16, 1, 0x000F);
+	elmdat = makeElementData(55, 12, 16, 1, 0x000F);
 	vartxt = makeVarText(tvstring, 1, &fuel);
 	makeTextImageWithVars(false, tvstring.c_str(), tvstring.size(), &elmdat, &vartxt);
 	idx = shopScreen.addElement(elmdat);
 	shopScreen.addVarText(idx, vartxt);
 
 	tvstring = " / %f";
-	elmdat = makeElementData(67, 12, 13, 1, 0x000F);
+	elmdat = makeElementData(71, 12, 13, 1, 0x000F);
 	vartxt = makeVarText(tvstring, 1, &maxFuel);
 	makeTextImageWithVars(false, tvstring.c_str(), tvstring.size(), &elmdat, &vartxt);
 	idx = shopScreen.addElement(elmdat);
 	shopScreen.addVarText(idx, vartxt);
 
-	elmdat = makeElementData(51, 18, 45, WIN_HEIGHT - 20, 0x000F);
+	elmdat = makeElementData(55, 18, 45, WIN_HEIGHT - 20, 0x000F);
 	elmdat.imgRenderer = &makeCargoImg;
 	shopScreen.addElement(elmdat);
 
 	//Fuel purchase display
-	elmdat = makeElementData(68, 14, 30, 3, 0x000F);
+	elmdat = makeElementData(72, 14, 30, 3, 0x000F);
 	tvstring = "$1 / $2  fuel";
 	makeTextImage(false, tvstring.c_str(), tvstring.size(), &elmdat);
 	shopScreen.addElement(elmdat);
 
-	elmdat = makeElementData(51, 14, 4, 3, 0x000F);
+	elmdat = makeElementData(55, 14, 4, 3, 0x000F);
 	elmdat.data = "fuel";
 	butDat = makeButtonData(true, 0x000C, 0x0004, "-1", NULL);
 	butDat.dataCallback = &sellGoods;
@@ -268,7 +268,7 @@ void initShopScreen()
 	idx = shopScreen.addElement(elmdat);
 	shopScreen.addButton(idx, butDat);
 
-	elmdat = makeElementData(56, 14, 4, 3, 0x000F);
+	elmdat = makeElementData(60, 14, 4, 3, 0x000F);
 	elmdat.data = "fuel";
 	butDat = makeButtonData(true, 0x000A, 0x0002, "+1", NULL);
 	butDat.dataCallback = &buyGoods;
@@ -276,7 +276,7 @@ void initShopScreen()
 	idx = shopScreen.addElement(elmdat);
 	shopScreen.addButton(idx, butDat);
 
-	elmdat = makeElementData(61, 14, 6, 3, 0x000F);
+	elmdat = makeElementData(65, 14, 6, 3, 0x000F);
 	butDat = makeButtonData(true, 0x000A, 0x0002, "+max", NULL);
 	butDat.dataCallback = &fillFuel;
 	makeButtonImage(&elmdat, &butDat);
@@ -291,14 +291,20 @@ void initShopScreen()
 	for (int i = 0; i <= goodsSize; ++i)
 	{
 
-		elmdat = makeElementData(21, shopElmY, 30, 3, 0x000F);
+		elmdat = makeElementData(32, shopElmY, 15, 3, 0x000F);
 		elmdat.data = std::to_string(i);
 		elmdat.imgRenderer = &makeShopItemImg;
 		shopScreen.addElement(elmdat);
 
+		elmdat = makeElementData(8, shopElmY, 6, 3, 0x000F);
+		elmdat.data = std::to_string(i);
+		butDat = makeButtonData(true, 0x000C, 0x0004, "-all", NULL);
+		butDat.dataCallback = &sellAll;
+		makeButtonImage(&elmdat, &butDat);
+		idx = shopScreen.addElement(elmdat);
+		shopScreen.addButton(idx, butDat);
 
-
-		elmdat = makeElementData(10, shopElmY, 4, 3, 0x000F);
+		elmdat = makeElementData(15, shopElmY, 4, 3, 0x000F);
 		elmdat.data = std::to_string(i);
 		butDat = makeButtonData(true, 0x000C, 0x0004, "-1", NULL);
 		butDat.dataCallback = &sellGoods;
@@ -306,11 +312,18 @@ void initShopScreen()
 		idx = shopScreen.addElement(elmdat);
 		shopScreen.addButton(idx, butDat);
 
-
-		elmdat = makeElementData(15, shopElmY, 4, 3, 0x000F);
+		elmdat = makeElementData(20, shopElmY, 4, 3, 0x000F);
 		elmdat.data = std::to_string(i);
 		butDat = makeButtonData(true, 0x000A, 0x0002, "+1", NULL);
 		butDat.dataCallback = &buyGoods;
+		makeButtonImage(&elmdat, &butDat);
+		idx = shopScreen.addElement(elmdat);
+		shopScreen.addButton(idx, butDat);
+
+		elmdat = makeElementData(25, shopElmY, 6, 3, 0x000F);
+		elmdat.data = std::to_string(i);
+		butDat = makeButtonData(true, 0x000A, 0x0002, "+max", NULL);
+		butDat.dataCallback = &buyMax;
 		makeButtonImage(&elmdat, &butDat);
 		idx = shopScreen.addElement(elmdat);
 		shopScreen.addButton(idx, butDat);
@@ -737,6 +750,83 @@ void fillFuel(ElementData* e)
 	
 	money -= fuelCost * amt;
 	fuel += amt;
+}
+
+void buyMax(ElementData* e)
+{
+	int idx = -1;
+	std::string item = "";
+
+	idx = std::stoi(e->data);
+	item = gal[loc].goods[idx].type;
+
+
+	int amt = (baySize - itemsInBay);
+	if (amt * gal[loc].goods[idx].val > money)
+	{
+		amt = money / gal[loc].goods[idx].val;
+	}
+
+
+	if (amt <= baySize - itemsInBay)
+	{
+		if (gal[loc].goods[idx].qty > 0)
+		{
+			if (money >= gal[loc].goods[idx].val * amt)
+			{
+				bool foundItemInBay = false;
+				for (int b = 0; b < baySize; ++b)
+				{
+					if (bay[b].type == item)
+					{
+						foundItemInBay = true;
+						money -= gal[loc].goods[idx].val * amt;
+						bay[b].qty += amt;
+						itemsInBay += amt;
+						break;
+					}
+				}
+				if (!foundItemInBay)
+				{
+					for (int b = 0; b < baySize; ++b)
+					{
+						if (bay[b].qty == 0)
+						{
+							money -= gal[loc].goods[idx].val * amt;
+							bay[b].type = item;
+							bay[b].qty += amt;
+							itemsInBay += amt;
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+void sellAll(ElementData* e)
+{
+	int idx = -1;
+	std::string item = "";
+
+	
+	idx = std::stoi(e->data);
+	item = gal[loc].goods[idx].type;
+
+	
+	
+	for (int b = 0; b < baySize; ++b)
+	{
+		if (bay[b].type == item)
+		{
+			money += gal[loc].goods[idx].val * bay[b].qty;
+			itemsInBay -= bay[b].qty;
+			bay[b].qty = 0;
+			bay[b].type = "";
+			break;
+		}
+	}
 }
 
 void goToObj(ElementData* e)
