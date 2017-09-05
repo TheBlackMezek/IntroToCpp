@@ -357,23 +357,54 @@ void initStarScreen()
 
 	int starScreenX = 10;
 	int starScreenXInc = 5;
+	int starScreenYBase = 10;
+	int starScreenY = starScreenYBase;
+	int starScreenYInc = 10;
 	for (int i = 0; i < galSize; ++i)
 	{
-		elmdat = makeElementData(starScreenX, 10, gal[i].name.size() + 2, 3, 0x000F);
-		elmdat.data = std::to_string(i);
-		butDat = makeButtonData(true, 0x000F, 0x0007, gal[i].name, NULL);
-		butDat.dataCallback = &goToObj;
-		makeButtonImage(&elmdat, &butDat);
-		idx = starScreen.addElement(elmdat);
-		starScreen.addButton(idx, butDat);
+		if (gal[i].ploc == -1)
+		{
+			elmdat = makeElementData(starScreenX, 10, gal[i].name.size() + 2, 3, 0x000F);
+			elmdat.data = std::to_string(i);
+			butDat = makeButtonData(true, 0x000F, 0x0007, gal[i].name, NULL);
+			butDat.dataCallback = &goToObj;
+			makeButtonImage(&elmdat, &butDat);
+			idx = starScreen.addElement(elmdat);
+			starScreen.addButton(idx, butDat);
 
-		elmdat = makeElementData(starScreenX, 15, 30, 3, 0x000F);
-		elmdat.data = std::to_string(i);
-		elmdat.imgRenderer = &makeFuelCostImg;
-		starScreen.addElement(elmdat);
+			elmdat = makeElementData(starScreenX, 15, 30, 3, 0x000F);
+			elmdat.data = std::to_string(i);
+			elmdat.imgRenderer = &makeFuelCostImg;
+			starScreen.addElement(elmdat);
+
+			if (gal[i].sats > 0)
+			{
+				for (int q = 0; q < galSize; ++q)
+				{
+					if (gal[q].ploc == i)
+					{
+						starScreenY += starScreenYInc;
+
+						elmdat = makeElementData(starScreenX, starScreenY, gal[q].name.size() + 2, 3, 0x000F);
+						elmdat.data = std::to_string(q);
+						butDat = makeButtonData(true, 0x000F, 0x0007, gal[q].name, NULL);
+						butDat.dataCallback = &goToObj;
+						makeButtonImage(&elmdat, &butDat);
+						idx = starScreen.addElement(elmdat);
+						starScreen.addButton(idx, butDat);
+
+						elmdat = makeElementData(starScreenX, starScreenY + 5, 30, 3, 0x000F);
+						elmdat.data = std::to_string(q);
+						elmdat.imgRenderer = &makeFuelCostImg;
+						starScreen.addElement(elmdat);
+					}
+				}
+				starScreenY = starScreenYBase;
+			}
 
 
-		starScreenX += starScreenXInc + gal[i].name.size();
+			starScreenX += starScreenXInc + gal[i].name.size();
+		}
 	}
 
 
