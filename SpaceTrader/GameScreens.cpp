@@ -16,6 +16,7 @@ Screen helpScreen;
 Screen shipScreen;
 Screen shopScreen;
 Screen starScreen;
+Screen loreScreen;
 Screen endScreen;
 
 
@@ -26,6 +27,7 @@ void initScreens()
 	initShipScreen();
 	initShopScreen();
 	initStarScreen();
+	initLoreScreen();
 	initEndScreen();
 }
 
@@ -77,6 +79,12 @@ void initHelpScreen()
 
 	elmdat = makeElementData(22, 1, 6, 3, 0x000F);
 	butDat = makeButtonData(true, 0x000B, 0x0009, "Star", &switchScreenToStar);
+	makeButtonImage(&elmdat, &butDat);
+	idx = helpScreen.addElement(elmdat);
+	helpScreen.addButton(idx, butDat);
+
+	elmdat = makeElementData(29, 1, 6, 3, 0x000F);
+	butDat = makeButtonData(true, 0x000B, 0x0009, "Lore", &switchScreenToLore);
 	makeButtonImage(&elmdat, &butDat);
 	idx = helpScreen.addElement(elmdat);
 	helpScreen.addButton(idx, butDat);
@@ -182,6 +190,12 @@ void initShipScreen()
 
 	elmdat = makeElementData(22, 1, 6, 3, 0x000F);
 	butDat = makeButtonData(true, 0x000B, 0x0009, "Star", &switchScreenToStar);
+	makeButtonImage(&elmdat, &butDat);
+	idx = shipScreen.addElement(elmdat);
+	shipScreen.addButton(idx, butDat);
+
+	elmdat = makeElementData(29, 1, 6, 3, 0x000F);
+	butDat = makeButtonData(true, 0x000B, 0x0009, "Lore", &switchScreenToLore);
 	makeButtonImage(&elmdat, &butDat);
 	idx = shipScreen.addElement(elmdat);
 	shipScreen.addButton(idx, butDat);
@@ -327,6 +341,12 @@ void initShopScreen()
 	idx = shopScreen.addElement(elmdat);
 	shopScreen.addButton(idx, butDat);
 
+	elmdat = makeElementData(29, 1, 6, 3, 0x000F);
+	butDat = makeButtonData(true, 0x000B, 0x0009, "Lore", &switchScreenToLore);
+	makeButtonImage(&elmdat, &butDat);
+	idx = shopScreen.addElement(elmdat);
+	shopScreen.addButton(idx, butDat);
+
 
 	shopScreen.makeImage();
 }
@@ -437,8 +457,86 @@ void initStarScreen()
 	idx = starScreen.addElement(elmdat);
 	starScreen.addButton(idx, butDat);
 
+	elmdat = makeElementData(29, 1, 6, 3, 0x000F);
+	butDat = makeButtonData(true, 0x000B, 0x0009, "Lore", &switchScreenToLore);
+	makeButtonImage(&elmdat, &butDat);
+	idx = starScreen.addElement(elmdat);
+	starScreen.addButton(idx, butDat);
+
 
 	starScreen.makeImage();
+}
+
+void initLoreScreen()
+{
+	loreScreen = Screen();
+	loreScreen.setSize(WIN_WIDTH, WIN_HEIGHT);
+
+	std::string termStr =
+		"MERCURY: A plain ball of rock close to Sol, slowly rotating and intensely hot.\n"
+		"    Factories on Mercury have access to enormous amounts of solar power.\n"
+		"    That and low gravity let them produce special high-end tech.\n"
+		"    It must import most supplies, and Mercurians have no room for luxuries.\n"
+		"\n"
+		"VENUS: A hellish planet shrouded in clouds, bright and beautiful from above.\n"
+		"    Venus has several tourist and science stations in orbit.\n"
+		"    Luxuries and basic supplies are major imports, as is special science tech.\n"
+		"\n"
+		"EARTH: The beautiful and fertile homeworld of humankind.\n"
+		"    Earth produces most of what it needs, and imports next to nothing.\n"
+		"    Earthers love the curiosities and luxuries from 'outer space'.\n"
+		"    Traders mostly know Earth as the prime source of water in the inner planets.\n"
+		"\n"
+		"LUNA: The sole moon of Earth.\n"
+		"    Luna has the biggest synthlife labs in the solar system.\n"
+		"    The moon has few natural resources.\n"
+		"    Supplies and manufactured goods must all be imported.\n"
+		"\n"
+		"MARS: Humankind's first and most populous colonized planet.\n"
+		"    Mars is known as the great factory of the solar system.\n"
+		"    Metals mined in the A-belt are shipped there and made into goods.\n"
+		"    It also has reserves of water, and wealth enough for luxuries.\n"
+		"\n"
+		"CERES: A dwarf planet in the asteroid belt.\n"
+		"    Ceres serves as the administrative hub and main port of the A-belt.\n"
+		"    Hundreds of tons of metal flow through its docks every day.\n"
+		"    It must import its goods, supplies and tech, and has no money for luxuries.\n"
+		"\n"
+		"\n";
+	ElementData elmdat = makeElementData(10, 10, WIN_WIDTH - 20, WIN_HEIGHT - 20, 0x000F);
+	makeTextImageMultiLine(false, termStr.c_str(), termStr.size(), &elmdat);
+	loreScreen.addElement(elmdat);
+
+
+
+	//Screen buttons
+	elmdat = makeElementData(1, 1, 6, 3, 0x000F);
+	ButtonData butDat = makeButtonData(true, 0x000B, 0x0009, "Help", &switchScreenToHelp);
+	makeButtonImage(&elmdat, &butDat);
+	int idx = loreScreen.addElement(elmdat);
+	loreScreen.addButton(idx, butDat);
+
+	elmdat = makeElementData(8, 1, 6, 3, 0x000F);
+	butDat = makeButtonData(true, 0x000B, 0x0009, "Ship", &switchScreenToShip);
+	makeButtonImage(&elmdat, &butDat);
+	idx = loreScreen.addElement(elmdat);
+	loreScreen.addButton(idx, butDat);
+
+	elmdat = makeElementData(15, 1, 6, 3, 0x000F);
+	butDat = makeButtonData(true, 0x000B, 0x0009, "Shop", &switchScreenToShop);
+	makeButtonImage(&elmdat, &butDat);
+	idx = loreScreen.addElement(elmdat);
+	loreScreen.addButton(idx, butDat);
+
+	elmdat = makeElementData(22, 1, 6, 3, 0x000F);
+	butDat = makeButtonData(true, 0x000B, 0x0009, "Star", &switchScreenToStar);
+	makeButtonImage(&elmdat, &butDat);
+	idx = loreScreen.addElement(elmdat);
+	loreScreen.addButton(idx, butDat);
+
+
+
+	loreScreen.makeImage();
 }
 
 void initEndScreen()
@@ -506,6 +604,11 @@ void switchScreenToShop()
 void switchScreenToStar()
 {
 	screen = &starScreen;
+}
+
+void switchScreenToLore()
+{
+	screen = &loreScreen;
 }
 
 void switchScreenToEnd()

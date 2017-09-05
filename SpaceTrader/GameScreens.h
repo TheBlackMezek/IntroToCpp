@@ -9,18 +9,16 @@ extern Screen helpScreen;
 extern Screen shipScreen;
 extern Screen shopScreen;
 extern Screen starScreen;
+extern Screen loreScreen;
 extern Screen endScreen;
 
 void initScreens();
 
 void initHelpScreen();
-
 void initShipScreen();
-
 void initShopScreen();
-
 void initStarScreen();
-
+void initLoreScreen();
 void initEndScreen();
 
 
@@ -28,6 +26,7 @@ void switchScreenToHelp();
 void switchScreenToShip();
 void switchScreenToShop();
 void switchScreenToStar();
+void switchScreenToLore();
 void switchScreenToEnd();
 
 

@@ -113,7 +113,7 @@ void initGalaxy()
 		"Ceres is the main hub for miners in the A-belt.\n"
 		"It houses administration, refineries, factories, shipyards, and ports.\n"
 		"It's not an attractive place and receives few tourists.\n",
-		{ { "water", 1, 30 },{ "tech", 1, 30 },{ "metal", 1, 20 },{},{},
+		{ { "water", 1, 30 },{ "tech", 1, 80 },{ "metal", 1, 20 },{ "machines", 1, 60 },{},
 		{}, {}, {}, {}, {} }
 	};
 
