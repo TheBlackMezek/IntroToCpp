@@ -342,6 +342,13 @@ void initShopScreen()
 
 
 
+	//   Log / Transaction history
+	elmdat = makeElementData(10, 30, WIN_WIDTH - 10, WIN_HEIGHT - 30, 0x000E);
+	elmdat.imgRenderer = &makeLogImg;
+	shopScreen.addElement(elmdat);
+
+
+
 
 	//Screen buttons
 	elmdat = makeElementData(1, 1, 6, 3, 0x000F);
@@ -751,9 +758,15 @@ void sellGoods(ElementData* e)
 void fillFuel(ElementData* e)
 {
 	int amt = maxFuel - fuel;
+
 	if (amt * fuelCost > money)
 	{
 		amt = money / fuelCost;
+	}
+
+	if (amt > 0)
+	{
+		//addLineToLog("Test", 4);
 	}
 	
 	money -= fuelCost * amt;
@@ -868,6 +881,49 @@ void clickRetire()
 	}
 }
 
+
+
+
+void addLineToLog(char line[], int size)
+{
+	//Find end of text
+	int logEnd = 0;
+	for (int i = logSize - 1; i >= 0; --i)
+	{
+		if (tlog[i] != ' ')
+		{
+			logEnd = i;
+			break;
+		}
+	}
+
+	if (logEnd > 0)
+	{
+		//Clear space
+		int idx = logEnd;
+		if (size > logSize - logEnd + 1)
+		{
+			do
+			{
+				tlog[idx] = ' ';
+				--idx;
+			} while (tlog[idx] != '\n');
+		}
+
+		//Move text up
+		for (int i = idx; i >= 0; --i)
+		{
+			tlog[i + size] = tlog[i];
+			tlog[i] = ' ';
+		}
+	}
+
+	//Add text
+	for (int i = 0; i < size; ++i)
+	{
+		tlog[i] = line[i];
+	}
+}
 
 
 
@@ -1470,6 +1526,90 @@ void makeShopPlanetImg(ElementData* e)
 				e->image[x + y * e->sizeX].chr = text[chridx];
 				++chridx;
 				while (chridx < text.size() && text[chridx] == '\n')
+				{
+					++chrLine;
+					++chridx;
+				}
+			}
+
+			//Empty space
+			else
+			{
+				e->image[x + y * e->sizeX].chr = ' ';
+			}
+
+			e->image[x + y * e->sizeX].color = color;
+		}
+	}
+}
+
+void makeLogImg(ElementData* e)
+{
+	e->image = std::vector<CharData>();
+	e->image.resize(e->sizeX * e->sizeY);
+	char ap = ' ';
+
+
+
+	int chridx = 0;
+	int chrLine = 0;
+	int color = 0x000F;
+	for (int y = 0; y < e->sizeY; ++y)
+	{
+		for (int x = 0; x < e->sizeX; ++x)
+		{
+			//Text
+			if (chridx < logSize && y == chrLine)
+			{
+				if (chridx < logSize - 1 &&
+					tlog[chridx] == '%')
+				{
+					if (tlog[chridx + 1] == 'W')
+					{
+						color = 0x000F;
+						chridx += 2;
+					}
+					else if (tlog[chridx + 1] == 'Y') //yellow
+					{
+						color = 0x000E;
+						chridx += 2;
+					}
+					else if (tlog[chridx + 1] == 'y') //brownish yellow
+					{
+						color = 0x0006;
+						chridx += 2;
+					}
+					else if (tlog[chridx + 1] == 'G') //green
+					{
+						color = 0x000A;
+						chridx += 2;
+					}
+					else if (tlog[chridx + 1] == 'g') //gray
+					{
+						color = 0x0007;
+						chridx += 2;
+					}
+					else if (tlog[chridx + 1] == 'b')
+					{
+						color = 0x000B;
+						chridx += 2;
+					}
+					else if (tlog[chridx + 1] == 'B')
+					{
+						color = 0x0009;
+						chridx += 2;
+					}
+					else if (tlog[chridx + 1] == 'R')
+					{
+						color = 0x000C;
+						chridx += 2;
+					}
+				}
+
+
+				e->image[x + y * e->sizeX].chr = tlog[chridx];
+				++chridx;
+				while (chridx < logSize && tlog[chridx] == '\n')
 				{
 					++chrLine;
 					++chridx;

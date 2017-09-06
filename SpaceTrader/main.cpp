@@ -80,6 +80,8 @@ int main()
 
 		screen->update(mouse.x, WIN_HEIGHT - mouse.y);
 
+		
+
 		renderWindow();
 
 
