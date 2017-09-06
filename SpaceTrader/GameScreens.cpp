@@ -981,7 +981,7 @@ void addLineToLog(const char line[], int size)
 	{
 		//Clear space
 		int idx = logEnd;
-		if (size > logSize - logEnd + 1)
+		while (size > logSize - logEnd + 1)
 		{
 			do
 			{
