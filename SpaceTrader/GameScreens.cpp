@@ -267,6 +267,23 @@ void initShopScreen()
 	elmdat.imgRenderer = &makeCargoImg;
 	shopScreen.addElement(elmdat);
 
+	//Bay upgrade
+	tvstring = "$%i";
+	elmdat = makeElementData(70, 41, 10, 1, 0x000F);
+	elmdat.data = "bayup";
+	vartxt = makeVarText(tvstring, 0, &bayUpCost);
+	makeTextImageWithVars(false, tvstring.c_str(), tvstring.size(), &elmdat, &vartxt);
+	idx = shopScreen.addElement(elmdat);
+	shopScreen.addVarText(idx, vartxt);
+
+	elmdat = makeElementData(55, 40, 13, 3, 0x000F);
+	elmdat.data = "bayup";
+	butDat = makeButtonData(true, 0x000A, 0x0002, "+1 Bay Size", NULL);
+	butDat.dataCallback = &buyBayUpgrade;
+	makeButtonImage(&elmdat, &butDat);
+	idx = shopScreen.addElement(elmdat);
+	shopScreen.addButton(idx, butDat);
+
 	//Fuel purchase display
 	elmdat = makeElementData(55, 14, 4, 3, 0x000F);
 	elmdat.data = "fuel";
@@ -355,7 +372,7 @@ void initShopScreen()
 
 
 	//   Log / Transaction history
-	elmdat = makeElementData(10, 28, WIN_WIDTH - 10, WIN_HEIGHT - 30, 0x000E);
+	elmdat = makeElementData(10, 28, WIN_WIDTH - 60, WIN_HEIGHT - 30, 0x000E);
 	elmdat.imgRenderer = &makeLogImg;
 	shopScreen.addElement(elmdat);
 
@@ -633,7 +650,8 @@ void switchScreenToShop()
 		elm = screen->elements[i];
 		if (screen->butDat[elm.buttonData].exists &&
 			(screen->elmDat[elm.elementData].data != "" &&
-			 screen->elmDat[elm.elementData].data != "fuel"))
+			 screen->elmDat[elm.elementData].data != "fuel" &&
+			 screen->elmDat[elm.elementData].data != "bayup"))
 		{
 			screen->elmDat[elm.elementData].visible =
 				(gal[loc].goods[std::stoi(screen->elmDat[elm.elementData].data)].qty > 0);
@@ -936,6 +954,33 @@ void sellAll(ElementData* e)
 			bay[b].qty = 0;
 			bay[b].type = "";
 			break;
+		}
+	}
+}
+
+void buyBayUpgrade(ElementData* e)
+{
+	if (money >= bayUpCost && baySize < baySizeMax)
+	{
+		std::string line = "Increased bay size to ";
+		line.append(std::to_string(baySize+1));
+		line.append(" for $");
+		line.append(std::to_string(bayUpCost));
+		line.append("\n");
+		addLineToLog(line.c_str(), line.size());
+
+		money -= bayUpCost;
+		++baySize;
+		bayUpCost *= bayCostMult;
+		if (baySize == baySizeMax)
+		{
+			for (int i = 0; i < shopScreen.maxElms; ++i)
+			{
+				if (shopScreen.elmDat[i].data == "bayup")
+				{
+					shopScreen.elmDat[i].visible = false;
+				}
+			}
 		}
 	}
 }

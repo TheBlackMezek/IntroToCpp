@@ -53,5 +53,6 @@ void buyMax(ElementData* e);
 void sellAll(ElementData* e);
 void fillFuel(ElementData* e);
 void buyFiveFuel(ElementData* e);
+void buyBayUpgrade(ElementData* e);
 void goToObj(ElementData* e);
 void clickRetire();
