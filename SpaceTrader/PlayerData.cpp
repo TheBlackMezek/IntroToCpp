@@ -7,7 +7,7 @@ const int baySize = 10;
 int itemsInBay = 0;
 cargo bay[baySize];
 const int logSize = (WIN_WIDTH - 20) * (WIN_HEIGHT - 30);
-char tlog[logSize];
+char tlog[logSize + 1];
 float maxFuel = 100.0f;
 float fuel = maxFuel;
 int loc = 2;

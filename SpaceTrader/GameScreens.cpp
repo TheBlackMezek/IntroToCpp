@@ -29,6 +29,18 @@ void initScreens()
 	initStarScreen();
 	initLoreScreen();
 	initEndScreen();
+
+	for (int i = 0; i <= logSize; ++i)
+	{
+		if (i == logSize)
+		{
+			tlog[i] = '\0';
+		}
+		else
+		{
+			tlog[i] = ' ';
+		}
+	}
 }
 
 
@@ -343,7 +355,7 @@ void initShopScreen()
 
 
 	//   Log / Transaction history
-	elmdat = makeElementData(10, 30, WIN_WIDTH - 10, WIN_HEIGHT - 30, 0x000E);
+	elmdat = makeElementData(10, 28, WIN_WIDTH - 10, WIN_HEIGHT - 30, 0x000E);
 	elmdat.imgRenderer = &makeLogImg;
 	shopScreen.addElement(elmdat);
 
@@ -669,6 +681,13 @@ void buyGoods(ElementData* e)
 		{
 			if (fuel + amt <= maxFuel)
 			{
+				std::string line = "Bought ";
+				line.append(std::to_string(amt));
+				line.append(" fuel for $");
+				line.append(std::to_string(fuelCost * amt));
+				line.append("\n");
+				addLineToLog(line.c_str(), line.size());
+
 				money -= fuelCost * amt;
 				fuel += amt;
 			}
@@ -682,6 +701,15 @@ void buyGoods(ElementData* e)
 			{
 				if (money >= gal[loc].goods[idx].val * amt)
 				{
+					std::string line = "Bought ";
+					line.append(std::to_string(amt));
+					line.append(" ");
+					line.append(item);
+					line.append(" for $");
+					line.append(std::to_string(gal[loc].goods[idx].val * amt));
+					line.append("\n");
+					addLineToLog(line.c_str(), line.size());
+
 					bool foundItemInBay = false;
 					for (int b = 0; b < baySize; ++b)
 					{
@@ -735,6 +763,13 @@ void sellGoods(ElementData* e)
 	{
 		if (amt <= fuel)
 		{
+			std::string line = "Sold ";
+			line.append(std::to_string(amt));
+			line.append(" fuel for $");
+			line.append(std::to_string(amt * (fuelCost / 2)));
+			line.append("\n");
+			addLineToLog(line.c_str(), line.size());
+
 			money += amt * (fuelCost / 2);
 			fuel -= amt;
 		}
@@ -745,6 +780,15 @@ void sellGoods(ElementData* e)
 		{
 			if (bay[b].type == item && bay[b].qty >= amt)
 			{
+				std::string line = "Sold ";
+				line.append(std::to_string(amt));
+				line.append(" ");
+				line.append(item);
+				line.append(" for $");
+				line.append(std::to_string(gal[loc].goods[idx].val * amt));
+				line.append("\n");
+				addLineToLog(line.c_str(), line.size());
+
 				bay[b].qty -= amt;
 				itemsInBay -= amt;
 				money += gal[loc].goods[idx].val * amt;
@@ -766,7 +810,12 @@ void fillFuel(ElementData* e)
 
 	if (amt > 0)
 	{
-		//addLineToLog("Test", 4);
+		std::string line = "Bought ";
+		line.append(std::to_string(amt));
+		line.append(" fuel for $");
+		line.append(std::to_string(amt * fuelCost));
+		line.append("\n");
+		addLineToLog(line.c_str(), line.size());
 	}
 	
 	money -= fuelCost * amt;
@@ -776,8 +825,21 @@ void fillFuel(ElementData* e)
 void buyFiveFuel(ElementData* e)
 {
 	int amt = 5;
-	if (amt * fuelCost <= money)
+
+	if (amt > maxFuel - fuel)
 	{
+		amt = maxFuel - fuel;
+	}
+
+	if (amt > 0 && amt * fuelCost <= money)
+	{
+		std::string line = "Bought ";
+		line.append(std::to_string(amt));
+		line.append(" fuel for $");
+		line.append(std::to_string(amt * fuelCost));
+		line.append("\n");
+		addLineToLog(line.c_str(), line.size());
+
 		money -= fuelCost * amt;
 		fuel += amt;
 	}
@@ -805,6 +867,15 @@ void buyMax(ElementData* e)
 		{
 			if (money >= gal[loc].goods[idx].val * amt)
 			{
+				std::string line = "Bought ";
+				line.append(std::to_string(amt));
+				line.append(" ");
+				line.append(item);
+				line.append(" for $");
+				line.append(std::to_string(gal[loc].goods[idx].val * amt));
+				line.append("\n");
+				addLineToLog(line.c_str(), line.size());
+
 				bool foundItemInBay = false;
 				for (int b = 0; b < baySize; ++b)
 				{
@@ -851,6 +922,15 @@ void sellAll(ElementData* e)
 	{
 		if (bay[b].type == item)
 		{
+			std::string line = "Sold ";
+			line.append(std::to_string(bay[b].qty));
+			line.append(" ");
+			line.append(item);
+			line.append(" for $");
+			line.append(std::to_string(gal[loc].goods[idx].val * bay[b].qty));
+			line.append("\n");
+			addLineToLog(line.c_str(), line.size());
+
 			money += gal[loc].goods[idx].val * bay[b].qty;
 			itemsInBay -= bay[b].qty;
 			bay[b].qty = 0;
@@ -884,7 +964,7 @@ void clickRetire()
 
 
 
-void addLineToLog(char line[], int size)
+void addLineToLog(const char line[], int size)
 {
 	//Find end of text
 	int logEnd = 0;

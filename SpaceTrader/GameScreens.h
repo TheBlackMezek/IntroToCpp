@@ -45,7 +45,7 @@ void makeStarSystemImg(ElementData* e);
 void makeShopPlanetImg(ElementData* e);
 void makeLogImg(ElementData* e);
 
-void addLineToLog(char line[], int size);
+void addLineToLog(const char line[], int size);
 
 void buyGoods(ElementData* e);
 void sellGoods(ElementData* e);
